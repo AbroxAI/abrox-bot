@@ -4,16 +4,26 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Abrox AI — Dashboard</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
 
 <style>
   :root{
-    --bg:#0f0f1a;
-    --card:#1a1a2e;
+    --bg:#0a0a14;
+    --card:#111122;
     --primary:#6c63ff;
     --secondary:#4a44c6;
-    --text:#e0e0ff;
+    --accent:#ff4d8d;
+    --text:#ffffff;
     --text-secondary:#a0a0c0;
+    --success:#00ff9f;
+    --danger:#ff4c4c;
+    --border:#2a2a3a;
+  }
+
+  * {
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
   }
 
   body{
@@ -21,47 +31,108 @@
     font-family:"Poppins",sans-serif;
     background-color:var(--bg);
     color:var(--text);
-    height:100vh;
+    min-height:100vh;
+    padding:20px;
     display:flex;
     align-items:center;
     justify-content:center;
-    padding:20px;
   }
 
-  .container{
+  .dashboard{
     width:100%;
-    max-width:400px;
-    background:var(--card);
-    border-radius:20px;
+    max-width:450px;
+    background:linear-gradient(145deg, #0f0f1f, #0a0a14);
+    border-radius:25px;
     padding:30px;
-    box-shadow:0 10px 30px rgba(0,0,0,0.3);
-    border:1px solid rgba(108,99,255,0.1);
+    box-shadow:0 20px 50px rgba(0,0,0,0.5),
+               0 0 0 1px rgba(108,99,255,0.1),
+               inset 0 1px 0 rgba(255,255,255,0.05);
+    border:1px solid var(--border);
+    position:relative;
+    overflow:hidden;
   }
 
-  .header{
+  .dashboard::before{
+    content:'';
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    height:1px;
+    background:linear-gradient(90deg, transparent, var(--primary), transparent);
+  }
+
+  .logo-section{
     text-align:center;
-    margin-bottom:30px;
+    margin-bottom:25px;
+    padding-bottom:20px;
+    border-bottom:1px solid rgba(255,255,255,0.05);
   }
 
   .logo{
-    font-size:28px;
+    width:120px;
+    height:40px;
+    margin:0 auto 15px;
+    background:linear-gradient(90deg, var(--primary), var(--accent));
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    font-size:36px;
     font-weight:800;
-    color:var(--primary);
-    margin-bottom:5px;
-    letter-spacing:1px;
+    letter-spacing:2px;
+    position:relative;
+    display:inline-block;
+  }
+
+  .logo::after{
+    content:'';
+    position:absolute;
+    bottom:-5px;
+    left:50%;
+    transform:translateX(-50%);
+    width:60px;
+    height:3px;
+    background:linear-gradient(90deg, var(--primary), var(--accent));
+    border-radius:2px;
   }
 
   .title{
-    font-size:20px;
-    font-weight:600;
+    font-size:24px;
+    font-weight:700;
     color:var(--text);
-    margin-bottom:8px;
+    margin-bottom:5px;
   }
 
   .subtitle{
     font-size:14px;
     color:var(--text-secondary);
+    font-weight:600;
+    letter-spacing:1px;
+  }
+
+  .settings-card{
+    background:rgba(20,20,35,0.7);
+    border-radius:18px;
+    padding:25px;
+    margin-bottom:25px;
+    border:1px solid rgba(255,255,255,0.05);
+    backdrop-filter:blur(10px);
+  }
+
+  .settings-title{
+    font-size:18px;
+    font-weight:600;
+    color:var(--text);
+    margin-bottom:15px;
+    text-align:center;
+  }
+
+  .instruction{
+    text-align:center;
+    color:var(--text-secondary);
+    font-size:14px;
     line-height:1.5;
+    margin-bottom:25px;
+    padding:0 10px;
   }
 
   .form-group{
@@ -72,20 +143,32 @@
     display:block;
     font-size:14px;
     color:var(--text-secondary);
-    margin-bottom:8px;
+    margin-bottom:10px;
+    font-weight:500;
   }
 
   select{
     width:100%;
-    padding:14px 16px;
-    background:rgba(108,99,255,0.1);
+    padding:16px 20px;
+    background:rgba(30,30,50,0.8);
     border:1px solid rgba(108,99,255,0.3);
-    border-radius:12px;
+    border-radius:14px;
     font-size:16px;
     color:var(--text);
     outline:none;
     cursor:pointer;
     transition:all 0.3s ease;
+    font-family:"Poppins",sans-serif;
+    appearance:none;
+    background-image:url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+    background-repeat:no-repeat;
+    background-position:right 20px center;
+    background-size:20px;
+    padding-right:50px;
+  }
+
+  select:hover{
+    border-color:var(--primary);
   }
 
   select:focus{
@@ -96,145 +179,526 @@
   select option{
     background-color:var(--card);
     color:var(--text);
+    padding:10px;
   }
 
   .currency-display{
-    background:rgba(108,99,255,0.1);
+    background:linear-gradient(135deg, rgba(108,99,255,0.15), rgba(255,77,141,0.15));
     border:1px solid rgba(108,99,255,0.3);
-    border-radius:12px;
-    padding:14px 16px;
-    font-size:16px;
+    border-radius:14px;
+    padding:18px;
+    font-size:18px;
     color:var(--text);
-    margin-bottom:20px;
     text-align:center;
-    font-weight:600;
+    font-weight:700;
+    letter-spacing:1px;
+    margin:25px 0;
+    position:relative;
+    overflow:hidden;
+  }
+
+  .currency-display::before{
+    content:'';
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background:linear-gradient(45deg, transparent, rgba(255,255,255,0.05), transparent);
   }
 
   .start-btn{
     width:100%;
-    padding:16px;
-    background:linear-gradient(135deg,var(--primary),var(--secondary));
+    padding:18px;
+    background:linear-gradient(135deg, var(--primary), var(--secondary));
     border:none;
-    border-radius:12px;
+    border-radius:14px;
     color:white;
     font-size:18px;
-    font-weight:600;
+    font-weight:700;
     cursor:pointer;
     transition:all 0.3s ease;
     margin-top:10px;
+    letter-spacing:1px;
+    position:relative;
+    overflow:hidden;
+    z-index:1;
+  }
+
+  .start-btn::before{
+    content:'';
+    position:absolute;
+    top:0;
+    left:-100%;
+    width:100%;
+    height:100%;
+    background:linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition:0.5s;
+  }
+
+  .start-btn:hover::before{
+    left:100%;
   }
 
   .start-btn:hover{
     transform:translateY(-2px);
-    box-shadow:0 5px 15px rgba(108,99,255,0.4);
+    box-shadow:0 10px 25px rgba(108,99,255,0.4);
   }
 
   .start-btn:active{
     transform:translateY(0);
   }
 
-  .info-text{
-    text-align:center;
-    font-size:12px;
-    color:var(--text-secondary);
+  .signals-section{
+    background:rgba(20,20,35,0.7);
+    border-radius:18px;
+    padding:25px;
     margin-top:25px;
-    line-height:1.5;
+    border:1px solid rgba(255,255,255,0.05);
+  }
+
+  .signals-title{
+    font-size:16px;
+    font-weight:600;
+    color:var(--text-secondary);
+    text-align:center;
+    margin-bottom:20px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+  }
+
+  .signals-container{
+    display:flex;
+    gap:15px;
+    margin-bottom:20px;
+  }
+
+  .signal-box{
+    flex:1;
+    background:rgba(30,30,50,0.8);
+    border-radius:14px;
+    padding:25px 15px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+
+  .signal-box::before{
+    content:'';
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    height:4px;
+  }
+
+  .signal-box.up::before{
+    background:linear-gradient(90deg, var(--success), #00cc7f);
+  }
+
+  .signal-box.down::before{
+    background:linear-gradient(90deg, var(--danger), #cc0000);
+  }
+
+  .signal-value{
+    font-size:32px;
+    font-weight:800;
+    margin-bottom:5px;
+  }
+
+  .signal-box.up .signal-value{
+    color:var(--success);
+    text-shadow:0 0 15px rgba(0,255,159,0.3);
+  }
+
+  .signal-box.down .signal-value{
+    color:var(--danger);
+    text-shadow:0 0 15px rgba(255,76,76,0.3);
+  }
+
+  .signal-label{
+    font-size:14px;
+    color:var(--text-secondary);
+    font-weight:500;
+  }
+
+  .order-signal{
+    background:rgba(30,30,50,0.8);
+    border-radius:14px;
+    padding:20px;
+    text-align:center;
+    border:2px solid var(--danger);
+    position:relative;
+    overflow:hidden;
+  }
+
+  .order-signal::before{
+    content:'';
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background:linear-gradient(45deg, transparent, rgba(255,76,76,0.1), transparent);
+  }
+
+  .order-text{
+    font-size:20px;
+    font-weight:700;
+    color:var(--danger);
+    text-shadow:0 0 10px rgba(255,76,76,0.5);
+    letter-spacing:0.5px;
+  }
+
+  .modal-backdrop{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background:rgba(0,0,0,0.8);
+    backdrop-filter:blur(5px);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:1000;
+    padding:20px;
+  }
+
+  .modal-content{
+    background:linear-gradient(145deg, #0f0f1f, #0a0a14);
+    border-radius:20px;
+    padding:30px;
+    max-width:400px;
+    width:100%;
+    border:1px solid var(--border);
+    position:relative;
+    animation:modalAppear 0.3s ease;
+  }
+
+  @keyframes modalAppear{
+    from{
+      opacity:0;
+      transform:scale(0.9);
+    }
+    to{
+      opacity:1;
+      transform:scale(1);
+    }
+  }
+
+  .modal-title{
+    font-size:22px;
+    font-weight:700;
+    color:var(--primary);
+    margin-bottom:15px;
+    text-align:center;
+  }
+
+  .modal-message{
+    color:var(--text-secondary);
+    line-height:1.6;
+    margin-bottom:25px;
+    text-align:center;
+  }
+
+  .modal-actions{
+    display:flex;
+    gap:15px;
+  }
+
+  .modal-btn{
+    flex:1;
+    padding:14px;
+    border:none;
+    border-radius:12px;
+    font-family:"Poppins",sans-serif;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+    transition:all 0.3s ease;
+  }
+
+  .modal-btn.cancel{
+    background:rgba(255,255,255,0.1);
+    color:var(--text);
+    border:1px solid rgba(255,255,255,0.2);
+  }
+
+  .modal-btn.continue{
+    background:linear-gradient(135deg, var(--primary), var(--secondary));
+    color:white;
+  }
+
+  .modal-btn:hover{
+    transform:translateY(-2px);
   }
 
   @media (max-width:480px){
-    .container{
+    .dashboard{
       padding:20px;
     }
     
     .logo{
-      font-size:24px;
+      font-size:32px;
     }
     
     .title{
-      font-size:18px;
+      font-size:20px;
+    }
+    
+    .settings-card,
+    .signals-section{
+      padding:20px;
+    }
+    
+    .signal-value{
+      font-size:28px;
     }
   }
 </style>
 </head>
 
 <body>
-<div class="container">
-  <div class="header">
+<div class="dashboard">
+  <!-- Logo Section -->
+  <div class="logo-section">
     <div class="logo">ABROX</div>
     <div class="title">TRADING BOT</div>
     <div class="subtitle">SETTINGS</div>
   </div>
 
-  <div class="subtitle" style="text-align:center; margin-bottom:25px;">
-    First select Currency Pair and<br>
-    Timeframe and then click on Start
+  <!-- Settings Card -->
+  <div class="settings-card">
+    <div class="instruction">
+      First select Currency Pair and<br>
+      Timeframe and then click on Start
+    </div>
+
+    <div class="form-group">
+      <label>Choose Currency</label>
+      <select id="pair">
+        <option value="USD/JPY" selected>USD/JPY</option>
+        <option value="EUR/USD">EUR/USD</option>
+        <option value="GBP/JPY">GBP/JPY</option>
+        <option value="AUD/USD">AUD/USD</option>
+        <option value="GBP/USD">GBP/USD</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Timeframe</label>
+      <select id="timeframe">
+        <option value="1min">1 min</option>
+        <option value="2min">2 min</option>
+        <option value="5min" selected>5 min</option>
+        <option value="10min">10 min</option>
+        <option value="15min">15 min</option>
+      </select>
+    </div>
+
+    <div class="currency-display" id="selectedCurrency">USD/JPY</div>
+
+    <button class="start-btn" id="startBtn">
+      <span id="btnText">START</span>
+    </button>
   </div>
 
-  <div class="form-group">
-    <label>Choose Currency</label>
-    <select id="pair">
-      <option value="USD/JPY" selected>USD/JPY</option>
-      <option value="EUR/USD">EUR/USD</option>
-      <option value="GBP/JPY">GBP/JPY</option>
-      <option value="AUD/USD">AUD/USD</option>
-      <option value="GBP/USD">GBP/USD</option>
-    </select>
+  <!-- Signals Section -->
+  <div class="signals-section">
+    <div class="signals-title">Signal Probability</div>
+    
+    <div class="signals-container">
+      <div class="signal-box up">
+        <div class="signal-value" id="pctUp">--%</div>
+        <div class="signal-label">BUY SIGNAL</div>
+      </div>
+      
+      <div class="signal-box down">
+        <div class="signal-value" id="pctDown">--%</div>
+        <div class="signal-label">SELL SIGNAL</div>
+      </div>
+    </div>
+
+    <div class="order-signal">
+      <div class="order-text" id="orderText">WAITING FOR SIGNAL...</div>
+    </div>
   </div>
+</div>
 
-  <div class="form-group">
-    <label>Timeframe</label>
-    <select id="timeframe">
-      <option value="1min">1 min</option>
-      <option value="2min">2 min</option>
-      <option value="5min" selected>5 min</option>
-      <option value="10min">10 min</option>
-    </select>
-  </div>
-
-  <div class="currency-display" id="selectedCurrency">USD/JPY</div>
-
-  <button class="start-btn" id="startBtn">Start</button>
-
-  <div class="info-text">
-    Make sure you have sufficient balance<br>
-    before starting the trading bot
+<!-- Activation Modal -->
+<div class="modal-backdrop" id="activationModal">
+  <div class="modal-content">
+    <div class="modal-title">Premium Activation Required</div>
+    <div class="modal-message">
+      To access live trading signals, please activate your premium subscription.<br><br>
+      Connect with our Telegram bot for activation instructions and pricing.
+    </div>
+    <div class="modal-actions">
+      <button class="modal-btn cancel" id="cancelBtn">Cancel</button>
+      <button class="modal-btn continue" id="activateBtn">Activate Now</button>
+    </div>
   </div>
 </div>
 
 <script>
-  // Update currency display when selection changes
+  // DOM Elements
   const pairSelect = document.getElementById('pair');
   const currencyDisplay = document.getElementById('selectedCurrency');
-  
+  const startBtn = document.getElementById('startBtn');
+  const btnText = document.getElementById('btnText');
+  const pctUp = document.getElementById('pctUp');
+  const pctDown = document.getElementById('pctDown');
+  const orderText = document.getElementById('orderText');
+  const activationModal = document.getElementById('activationModal');
+  const cancelBtn = document.getElementById('cancelBtn');
+  const activateBtn = document.getElementById('activateBtn');
+
+  // State Variables
+  let isBotRunning = false;
+  let signalInterval = null;
+  let currentPair = 'USD/JPY';
+  let currentTimeframe = '5min';
+
+  // Signal Simulation Data
+  const signalPatterns = {
+    'USD/JPY': { baseUp: 45, volatility: 15 },
+    'EUR/USD': { baseUp: 52, volatility: 12 },
+    'GBP/JPY': { baseUp: 48, volatility: 18 },
+    'AUD/USD': { baseUp: 50, volatility: 14 },
+    'GBP/USD': { baseUp: 55, volatility: 10 }
+  };
+
+  // Initialize Display
+  function initializeDisplay() {
+    currencyDisplay.textContent = pairSelect.value;
+    currentPair = pairSelect.value;
+    currentTimeframe = document.getElementById('timeframe').value;
+  }
+
+  // Update Signal Display
+  function updateSignals() {
+    const pattern = signalPatterns[currentPair];
+    
+    // Simulate market movement
+    const base = pattern.baseUp;
+    const vol = pattern.volatility;
+    const randomFactor = Math.sin(Date.now() / 10000) * vol;
+    
+    let upPercent = base + randomFactor;
+    upPercent = Math.max(10, Math.min(90, upPercent)); // Keep between 10-90%
+    
+    const downPercent = 100 - upPercent;
+    
+    // Update displays with animation
+    pctUp.textContent = `${upPercent.toFixed(1)}%`;
+    pctDown.textContent = `${downPercent.toFixed(1)}%`;
+    
+    // Determine order signal
+    if (upPercent > downPercent) {
+      orderText.textContent = 'BUY SIGNAL DETECTED';
+      orderText.style.color = '#00ff9f';
+      orderText.style.textShadow = '0 0 10px rgba(0,255,159,0.5)';
+      orderText.parentElement.style.borderColor = '#00ff9f';
+    } else {
+      orderText.textContent = 'SELL SIGNAL DETECTED';
+      orderText.style.color = '#ff4c4c';
+      orderText.style.textShadow = '0 0 10px rgba(255,76,76,0.5)';
+      orderText.parentElement.style.borderColor = '#ff4c4c';
+    }
+  }
+
+  // Start/Stop Bot
+  function toggleBot() {
+    if (!isBotRunning) {
+      // Start the bot
+      isBotRunning = true;
+      btnText.textContent = 'STOP';
+      startBtn.style.background = 'linear-gradient(135deg, #ff4c4c, #cc0000)';
+      
+      // Start signal simulation
+      updateSignals(); // Immediate update
+      signalInterval = setInterval(updateSignals, 1500);
+      
+      // Show initial notification
+      showNotification('Bot Started', `Trading ${currentPair} on ${currentTimeframe} timeframe`);
+    } else {
+      // Stop the bot
+      isBotRunning = false;
+      btnText.textContent = 'START';
+      startBtn.style.background = 'linear-gradient(135deg, var(--primary), var(--secondary))';
+      
+      // Clear intervals
+      if (signalInterval) {
+        clearInterval(signalInterval);
+        signalInterval = null;
+      }
+      
+      // Reset displays
+      pctUp.textContent = '--%';
+      pctDown.textContent = '--%';
+      orderText.textContent = 'WAITING FOR SIGNAL...';
+      orderText.style.color = '#ff4c4c';
+      orderText.style.textShadow = '0 0 10px rgba(255,76,76,0.5)';
+      orderText.parentElement.style.borderColor = '#ff4c4c';
+      
+      showNotification('Bot Stopped', 'Trading bot has been stopped');
+    }
+  }
+
+  // Show notification (simulated)
+  function showNotification(title, message) {
+    console.log(`[${title}] ${message}`);
+    // You can implement a toast notification here if needed
+  }
+
+  // Event Listeners
   pairSelect.addEventListener('change', function() {
     currencyDisplay.textContent = this.value;
+    currentPair = this.value;
+    if (isBotRunning) {
+      showNotification('Currency Changed', `Now trading ${currentPair}`);
+    }
   });
 
-  // Start button functionality
-  const startBtn = document.getElementById('startBtn');
-  
   startBtn.addEventListener('click', function() {
-    const pair = pairSelect.value;
-    const timeframe = document.getElementById('timeframe').value;
-    
-    // Show loading state
-    const originalText = startBtn.textContent;
-    startBtn.textContent = 'Starting...';
-    startBtn.disabled = true;
-    
-    // Simulate API call
-    setTimeout(() => {
-      alert(`Starting Trading Bot with:\nCurrency Pair: ${pair}\nTimeframe: ${timeframe}`);
-      
-      // Reset button
-      startBtn.textContent = originalText;
-      startBtn.disabled = false;
-    }, 1000);
+    // Show activation modal on first start
+    if (!isBotRunning) {
+      activationModal.style.display = 'flex';
+    } else {
+      toggleBot();
+    }
   });
 
-  // Initialize display
-  currencyDisplay.textContent = pairSelect.value;
-</script>
+  cancelBtn.addEventListener('click', function() {
+    activationModal.style.display = 'none';
+  });
 
+  activateBtn.addEventListener('click', function() {
+    activationModal.style.display = 'none';
+    // In a real app, this would redirect to Telegram bot or payment
+    // For demo, we'll just start the bot
+    setTimeout(() => {
+      toggleBot();
+    }, 300);
+  });
+
+  // Close modal when clicking outside
+  activationModal.addEventListener('click', function(e) {
+    if (e.target === activationModal) {
+      activationModal.style.display = 'none';
+    }
+  });
+
+  // Initialize on load
+  initializeDisplay();
+  
+  // Demo: Auto-start signals after 2 seconds for demo purposes
+  setTimeout(() => {
+    if (!isBotRunning) {
+      updateSignals();
+    }
+  }, 2000);
+</script>
 </body>
 </html>
