@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Abrox AI — Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#0f0f1a;
+    --card:#1a1a2e;
+    --primary:#6c63ff;
+    --secondary:#4a44c6;
+    --text:#e0e0ff;
+    --text-secondary:#a0a0c0;
+  }
+
+  body{
+    margin:0;
+    font-family:"Poppins",sans-serif;
+    background-color:var(--bg);
+    color:var(--text);
+    height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+  }
+
+  .container{
+    width:100%;
+    max-width:400px;
+    background:var(--card);
+    border-radius:20px;
+    padding:30px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.3);
+    border:1px solid rgba(108,99,255,0.1);
+  }
+
+  .header{
+    text-align:center;
+    margin-bottom:30px;
+  }
+
+  .logo{
+    font-size:28px;
+    font-weight:800;
+    color:var(--primary);
+    margin-bottom:5px;
+    letter-spacing:1px;
+  }
+
+  .title{
+    font-size:20px;
+    font-weight:600;
+    color:var(--text);
+    margin-bottom:8px;
+  }
+
+  .subtitle{
+    font-size:14px;
+    color:var(--text-secondary);
+    line-height:1.5;
+  }
+
+  .form-group{
+    margin-bottom:20px;
+  }
+
+  .form-group label{
+    display:block;
+    font-size:14px;
+    color:var(--text-secondary);
+    margin-bottom:8px;
+  }
+
+  select{
+    width:100%;
+    padding:14px 16px;
+    background:rgba(108,99,255,0.1);
+    border:1px solid rgba(108,99,255,0.3);
+    border-radius:12px;
+    font-size:16px;
+    color:var(--text);
+    outline:none;
+    cursor:pointer;
+    transition:all 0.3s ease;
+  }
+
+  select:focus{
+    border-color:var(--primary);
+    box-shadow:0 0 0 2px rgba(108,99,255,0.2);
+  }
+
+  select option{
+    background-color:var(--card);
+    color:var(--text);
+  }
+
+  .currency-display{
+    background:rgba(108,99,255,0.1);
+    border:1px solid rgba(108,99,255,0.3);
+    border-radius:12px;
+    padding:14px 16px;
+    font-size:16px;
+    color:var(--text);
+    margin-bottom:20px;
+    text-align:center;
+    font-weight:600;
+  }
+
+  .start-btn{
+    width:100%;
+    padding:16px;
+    background:linear-gradient(135deg,var(--primary),var(--secondary));
+    border:none;
+    border-radius:12px;
+    color:white;
+    font-size:18px;
+    font-weight:600;
+    cursor:pointer;
+    transition:all 0.3s ease;
+    margin-top:10px;
+  }
+
+  .start-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 5px 15px rgba(108,99,255,0.4);
+  }
+
+  .start-btn:active{
+    transform:translateY(0);
+  }
+
+  .info-text{
+    text-align:center;
+    font-size:12px;
+    color:var(--text-secondary);
+    margin-top:25px;
+    line-height:1.5;
+  }
+
+  @media (max-width:480px){
+    .container{
+      padding:20px;
+    }
+    
+    .logo{
+      font-size:24px;
+    }
+    
+    .title{
+      font-size:18px;
+    }
+  }
+</style>
+</head>
+
+<body>
+<div class="container">
+  <div class="header">
+    <div class="logo">ABROX</div>
+    <div class="title">TRADING BOT</div>
+    <div class="subtitle">SETTINGS</div>
+  </div>
+
+  <div class="subtitle" style="text-align:center; margin-bottom:25px;">
+    First select Currency Pair and<br>
+    Timeframe and then click on Start
+  </div>
+
+  <div class="form-group">
+    <label>Choose Currency</label>
+    <select id="pair">
+      <option value="USD/JPY" selected>USD/JPY</option>
+      <option value="EUR/USD">EUR/USD</option>
+      <option value="GBP/JPY">GBP/JPY</option>
+      <option value="AUD/USD">AUD/USD</option>
+      <option value="GBP/USD">GBP/USD</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label>Timeframe</label>
+    <select id="timeframe">
+      <option value="1min">1 min</option>
+      <option value="2min">2 min</option>
+      <option value="5min" selected>5 min</option>
+      <option value="10min">10 min</option>
+    </select>
+  </div>
+
+  <div class="currency-display" id="selectedCurrency">USD/JPY</div>
+
+  <button class="start-btn" id="startBtn">Start</button>
+
+  <div class="info-text">
+    Make sure you have sufficient balance<br>
+    before starting the trading bot
+  </div>
+</div>
+
+<script>
+  // Update currency display when selection changes
+  const pairSelect = document.getElementById('pair');
+  const currencyDisplay = document.getElementById('selectedCurrency');
+  
+  pairSelect.addEventListener('change', function() {
+    currencyDisplay.textContent = this.value;
+  });
+
+  // Start button functionality
+  const startBtn = document.getElementById('startBtn');
+  
+  startBtn.addEventListener('click', function() {
+    const pair = pairSelect.value;
+    const timeframe = document.getElementById('timeframe').value;
+    
+    // Show loading state
+    const originalText = startBtn.textContent;
+    startBtn.textContent = 'Starting...';
+    startBtn.disabled = true;
+    
+    // Simulate API call
+    setTimeout(() => {
+      alert(`Starting Trading Bot with:\nCurrency Pair: ${pair}\nTimeframe: ${timeframe}`);
+      
+      // Reset button
+      startBtn.textContent = originalText;
+      startBtn.disabled = false;
+    }, 1000);
+  });
+
+  // Initialize display
+  currencyDisplay.textContent = pairSelect.value;
+</script>
+
+</body>
+</html>
