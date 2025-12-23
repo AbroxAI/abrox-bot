@@ -15,44 +15,88 @@ body {
   background: #000;
 }
 
-/* Background */
+/* Starry background */
 .space-bg {
   position: relative;
   background: radial-gradient(circle at top, #0d4f8b 0%, #062a4d 35%, #020b16 75%);
   overflow: hidden;
 }
-
 .stars {
   position: absolute;
   inset: 0;
   background-image:
-    radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.5), transparent),
-    radial-gradient(1px 1px at 30% 70%, rgba(255,255,255,0.3), transparent),
-    radial-gradient(1px 1px at 50% 40%, rgba(255,255,255,0.2), transparent),
-    radial-gradient(1px 1px at 80% 10%, rgba(255,255,255,0.35), transparent);
+    radial-gradient(1px 1px rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px rgba(255,255,255,0.2) 0%, transparent 100%);
   background-size: 200px 200px;
-  animation: starsMove 90s linear infinite;
+  animation: starsMove 120s linear infinite;
   pointer-events: none;
 }
 
-@keyframes starsMove {
-  from { transform: translateY(0); }
-  to { transform: translateY(-200px); }
+/* Matrix-like vertical scanning lines */
+.matrix-lines {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.matrix-line {
+  position: absolute;
+  width: 2px;
+  height: 150%;
+  background: linear-gradient(to bottom, #0ff 0%, transparent 50%, #0ff 100%);
+  opacity: 0.1;
+  animation: moveLine linear infinite;
+}
+@keyframes moveLine {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
 }
 
-/* Cosmic AI Processing Circle */
+@keyframes starsMove {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-200px); }
+}
+
+/* Toggle boxes glow */
+.toggle-box {
+  box-shadow: 0 0 6px #0ff6, 0 0 12px #0ff4, 0 0 18px #0ff2;
+  transition: 0.3s;
+}
+.toggle-box:hover {
+  box-shadow: 0 0 12px #0ff, 0 0 24px #0ff6, 0 0 36px #0ff4;
+}
+
+/* Cosmic Ball with glowing aura */
+.cosmic-container {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  margin: 40px auto 0;
+}
+.cosmic-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  box-shadow: 0 0 60px #0ff33, 0 0 120px #0ff22, 0 0 180px #0ff11;
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+@keyframes pulseGlow {
+  0%, 100% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.15); opacity: 1; }
+}
+
 .cosmic-ball {
   width: 100px;
   height: 100px;
   border-radius: 50%;
   border: 3px solid #0ff;
   box-shadow: 0 0 20px #0ff, 0 0 40px #0ff, 0 0 60px #0ff;
-  animation: rotateBall 2s linear infinite;
-  margin: 40px auto 0;
-  position: relative;
+  animation: rotateBall 2s linear infinite, pulseBall 2s ease-in-out infinite;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
-
-/* Glowing particle rings */
 .cosmic-ball::before, .cosmic-ball::after {
   content: '';
   position: absolute;
@@ -60,10 +104,11 @@ body {
   border-radius: 50%;
   top: -20px;
   left: -20px;
+  width: 140px;
+  height: 140px;
   animation: spin 4s linear infinite;
   opacity: 0.6;
 }
-
 .cosmic-ball::after {
   width: 160px;
   height: 160px;
@@ -73,16 +118,35 @@ body {
   animation-duration: 6s;
 }
 
+@keyframes rotateBall {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  50% { transform: translate(-50%, -50%) rotate(180deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+@keyframes pulseBall {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-50%, -50%) scale(1.05); }
+}
 @keyframes spin {
   0% { transform: rotate(0deg) scale(1); }
   50% { transform: rotate(180deg) scale(1.05); }
   100% { transform: rotate(360deg) scale(1); }
 }
 
-@keyframes rotateBall {
-  0% { transform: rotate(0deg) scale(1); }
-  50% { transform: rotate(180deg) scale(1.05); }
-  100% { transform: rotate(360deg) scale(1); }
+/* Floating particles */
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #0ff;
+  opacity: 0.7;
+  animation: floatUp linear infinite;
+}
+@keyframes floatUp {
+  0% { transform: translateY(0) scale(1); opacity: 0.7; }
+  50% { opacity: 1; }
+  100% { transform: translateY(-120px) scale(0.5); opacity: 0; }
 }
 
 select:focus { outline: none; }
@@ -90,13 +154,12 @@ select:focus { outline: none; }
 </head>
 <body class="flex justify-center items-center min-h-screen">
 
-<!-- App Container -->
 <div class="w-[390px] h-[844px] rounded-3xl overflow-hidden relative space-bg text-white">
   <div class="stars"></div>
 
   <!-- Header -->
   <div class="flex justify-between items-center px-5 pt-5">
-    <img src="assets/logo.png" class="h-12" alt="ABROX Logo" />
+    <img src="assets/logo.svg" class="h-12" alt="ABROX Logo" />
     <div class="bg-cyan-600 px-3 py-1 rounded-lg text-sm flex items-center gap-1">
       🇺🇸 en
     </div>
@@ -112,10 +175,10 @@ select:focus { outline: none; }
 
     <!-- Currency / BTC Toggle -->
     <div class="flex gap-4 mt-6">
-      <div class="w-16 h-14 rounded-xl bg-[#0b2d4f] flex items-center justify-center border border-[#1c4e7a] cursor-pointer">
+      <div class="toggle-box w-16 h-14 rounded-xl bg-[#0b2d4f] flex items-center justify-center border border-[#1c4e7a] cursor-pointer">
         <span class="text-xl">$</span>
       </div>
-      <div class="w-16 h-14 rounded-xl bg-[#0b2d4f] flex items-center justify-center border border-[#1c4e7a] cursor-pointer">
+      <div class="toggle-box w-16 h-14 rounded-xl bg-[#0b2d4f] flex items-center justify-center border border-[#1c4e7a] cursor-pointer">
         <span class="text-xl">₿</span>
       </div>
     </div>
@@ -181,7 +244,11 @@ select:focus { outline: none; }
 
   <!-- AI Cosmic Processing Modal -->
   <div id="processingModal" class="hidden fixed inset-0 bg-black/90 flex flex-col items-center justify-center z-50 text-green-400 font-mono">
-    <div class="cosmic-ball"></div>
+    <div class="matrix-lines"></div>
+    <div class="cosmic-container">
+      <div class="cosmic-glow"></div>
+      <div class="cosmic-ball"></div>
+    </div>
     <div id="terminal" class="mt-4 space-y-1 w-[80%] text-sm text-center"></div>
   </div>
 
@@ -212,29 +279,55 @@ startBtn.onclick = () => {
 
 document.getElementById("paidBtn").onclick = () => {
   document.getElementById("paymentModal").classList.add("hidden");
-  document.getElementById("processingModal").classList.remove("hidden");
+  const modal = document.getElementById("processingModal");
+  modal.classList.remove("hidden");
 
-  const terminal = document.getElementById("terminal");
-  terminal.innerHTML = "";
+  const logContainer = document.getElementById("terminal");
+  logContainer.innerHTML = "";
+
   const logs = [
-    "Connecting to cosmic AI node…",
+    "Connecting to Abrox AI node…",
     "Initializing secure matrix…",
     "Loading quantum signal processors…",
     "Analyzing blockchain TX…",
     "Encrypting & verifying network (TRC20)…",
     "❌ Subscription not activated"
   ];
+
   let i = 0;
   const interval = setInterval(() => {
-    terminal.innerHTML += `<p>${logs[i]}</p>`;
+    logContainer.innerHTML += `<p>${logs[i]}</p>`;
     i++;
     if(i===logs.length){
       clearInterval(interval);
-      terminal.innerHTML += `
-      <p class="mt-2 text-red-400">Action required: Contact customer support to complete activation.</p>
-      <a href="https://t.me/official_profithunters" target="_blank" class="text-cyan-400 underline mt-1 inline-block">t.me/official_profithunters</a>`;
+      logContainer.innerHTML += `
+        <p class="mt-2 text-red-400">Action required: Contact customer support to complete activation.</p>
+        <a href="https://t.me/official_profithunters" target="_blank" class="text-cyan-400 underline mt-1 inline-block">t.me/official_profithunters</a>`;
     }
   },700);
+
+  // Floating particles
+  for(let j=0;j<50;j++){
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = `${Math.random()*100}px`;
+    p.style.bottom = '0px';
+    p.style.animationDuration = `${2+Math.random()*3}s`;
+    p.style.width = `${2+Math.random()*3}px`;
+    p.style.height = p.style.width;
+    modal.querySelector('.cosmic-ball').appendChild(p);
+  }
+
+  // Generate matrix lines
+  const matrixContainer = modal.querySelector('.matrix-lines');
+  matrixContainer.innerHTML = '';
+  for(let k=0;k<30;k++){
+    const line = document.createElement('div');
+    line.className = 'matrix-line';
+    line.style.left = `${Math.random()*100}%`;
+    line.style.animationDuration = `${2+Math.random()*4}s`;
+    matrixContainer.appendChild(line);
+  }
 }
 
 function copyWallet() {
@@ -242,6 +335,5 @@ function copyWallet() {
   alert("Wallet address copied");
 }
 </script>
-
 </body>
 </html>
