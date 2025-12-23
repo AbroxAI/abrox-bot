@@ -1,204 +1,247 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>ABROX AI Trading Bot</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<title>ABROX AI Trading Bot</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Tailwind CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
+<!-- Tailwind CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
 
-  <style>
-    body {
-      background: #000;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont;
-    }
+<style>
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont;
+  background: #000;
+}
 
-    .animated-bg {
-      background: linear-gradient(120deg, #020b16, #071a2c, #020b16);
-      background-size: 200% 200%;
-      animation: bgMove 14s ease infinite;
-    }
+/* Background */
+.space-bg {
+  position: relative;
+  background: radial-gradient(circle at top, #0d4f8b 0%, #062a4d 35%, #020b16 75%);
+  overflow: hidden;
+}
 
-    @keyframes bgMove {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-  </style>
+.stars {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.5), transparent),
+    radial-gradient(1px 1px at 30% 70%, rgba(255,255,255,0.3), transparent),
+    radial-gradient(1px 1px at 50% 40%, rgba(255,255,255,0.2), transparent),
+    radial-gradient(1px 1px at 80% 10%, rgba(255,255,255,0.35), transparent);
+  background-size: 200px 200px;
+  animation: starsMove 90s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes starsMove {
+  from { transform: translateY(0); }
+  to { transform: translateY(-200px); }
+}
+
+/* Cosmic AI Processing Circle */
+.cosmic-ball {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 3px solid #0ff;
+  box-shadow: 0 0 20px #0ff, 0 0 40px #0ff, 0 0 60px #0ff;
+  animation: rotateBall 2s linear infinite;
+  margin: 40px auto 0;
+  position: relative;
+}
+
+/* Glowing particle rings */
+.cosmic-ball::before, .cosmic-ball::after {
+  content: '';
+  position: absolute;
+  border: 2px dashed #0ff;
+  border-radius: 50%;
+  top: -20px;
+  left: -20px;
+  animation: spin 4s linear infinite;
+  opacity: 0.6;
+}
+
+.cosmic-ball::after {
+  width: 160px;
+  height: 160px;
+  top: -30px;
+  left: -30px;
+  border-color: #0ff6;
+  animation-duration: 6s;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.05); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+@keyframes rotateBall {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.05); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+select:focus { outline: none; }
+</style>
 </head>
-
 <body class="flex justify-center items-center min-h-screen">
 
-  <!-- APP CONTAINER -->
-  <div class="w-[390px] h-[844px] rounded-3xl overflow-hidden relative animated-bg text-white">
+<!-- App Container -->
+<div class="w-[390px] h-[844px] rounded-3xl overflow-hidden relative space-bg text-white">
+  <div class="stars"></div>
 
-    <!-- HEADER -->
-    <div class="flex justify-between items-center px-5 pt-5">
-      <img src="assets/logo.png" class="h-10" alt="ABROX" />
-      <div class="bg-cyan-600 px-3 py-1 rounded-lg text-sm flex items-center gap-1">
-        🇺🇸 en
-      </div>
+  <!-- Header -->
+  <div class="flex justify-between items-center px-5 pt-5">
+    <img src="assets/logo.png" class="h-12" alt="ABROX Logo" />
+    <div class="bg-cyan-600 px-3 py-1 rounded-lg text-sm flex items-center gap-1">
+      🇺🇸 en
     </div>
-
-    <!-- CONTENT -->
-    <div class="px-6 mt-10">
-      <h1 class="text-xl font-semibold">TRADING BOT</h1>
-      <h2 class="text-lg mt-4">SETTINGS</h2>
-
-      <p class="text-sm text-gray-300 mt-2">
-        First select Currency Pair and Timeframe and then click on Start Signals.
-      </p>
-
-      <!-- SELECTORS -->
-      <div class="mt-6 space-y-4">
-
-        <select id="pair"
-          class="w-full bg-[#0f2a44] p-3 rounded-xl text-white">
-          <option value="">Choose Currency</option>
-          <option>USD/JPY</option>
-          <option>USD/CHF</option>
-          <option>USD/CAD</option>
-          <option>GBP/USD</option>
-          <option>EUR/USD</option>
-          <option>AUD/USD</option>
-        </select>
-
-        <select id="timeframe"
-          class="w-full bg-[#0f2a44] p-3 rounded-xl text-white">
-          <option value="">Timeframe</option>
-          <option>1 Minute</option>
-          <option>5 Minutes</option>
-          <option>15 Minutes</option>
-          <option>30 Minutes</option>
-          <option>1 Hour</option>
-        </select>
-
-        <button id="startBtn"
-          class="w-full py-4 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 opacity-50">
-          Start Signals
-        </button>
-
-        <p id="warning" class="text-xs text-red-400 text-center hidden">
-          Please select currency pair and timeframe
-        </p>
-      </div>
-    </div>
-
-    <!-- PREMIUM MODAL -->
-    <div id="paymentModal"
-      class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50">
-
-      <div class="bg-[#071a2c] w-[90%] max-w-sm rounded-2xl p-6">
-
-        <h2 class="text-xl font-bold text-center">ABROX AI Premium</h2>
-        <p class="text-center text-gray-400 text-sm mt-1">
-          50 USDT Subscription
-        </p>
-
-        <div class="mt-4 p-3 bg-[#0f2a44] rounded-xl text-sm">
-          <p class="font-semibold">Network</p>
-          <p class="text-green-400">USDT (TRC20)</p>
-        </div>
-
-        <div class="mt-3 p-3 bg-[#0f2a44] rounded-xl">
-          <p class="text-xs text-gray-400">Wallet Address</p>
-          <p id="wallet" class="break-all text-sm mt-1">
-            TY23RUXeNaibpnTnvxxu18qiqtMpDws6yB
-          </p>
-          <button onclick="copyWallet()" class="text-cyan-400 text-xs mt-2">
-            Copy Address
-          </button>
-        </div>
-
-        <p class="text-xs text-red-400 mt-3">
-          ⚠️ Send ONLY USDT via TRC20 network.  
-          Sending to another network will result in loss.
-        </p>
-
-        <button id="paidBtn"
-          class="mt-4 w-full py-3 rounded-xl bg-green-500 font-semibold">
-          I Have Paid
-        </button>
-
-        <p class="text-center text-xs text-gray-400 mt-3">
-          Need help?  
-          <a href="https://t.me/official_profithunters"
-             target="_blank"
-             class="text-cyan-400">
-             Contact Support
-          </a>
-        </p>
-      </div>
-    </div>
-
-    <!-- PENDING MODAL -->
-    <div id="pendingModal"
-      class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50">
-
-      <div class="bg-[#071a2c] w-[90%] max-w-sm rounded-2xl p-6 text-center">
-
-        <h2 class="text-xl font-bold">Subscription Pending</h2>
-
-        <p class="text-sm text-gray-400 mt-2">
-          Your subscription request has been submitted.
-        </p>
-
-        <div class="mt-4 bg-[#0f2a44] p-4 rounded-xl text-sm">
-          <p class="text-yellow-400 font-semibold">
-            Awaiting Payment Verification
-          </p>
-          <p class="text-gray-400 mt-2">
-            Signals will be activated once payment is confirmed.
-          </p>
-        </div>
-
-        <a href="https://t.me/official_profithunters"
-           target="_blank"
-           class="block mt-4 text-cyan-400 text-sm">
-           Contact Support on Telegram
-        </a>
-      </div>
-    </div>
-
   </div>
 
-  <script>
-    const pair = document.getElementById("pair");
-    const timeframe = document.getElementById("timeframe");
-    const startBtn = document.getElementById("startBtn");
-    const warning = document.getElementById("warning");
+  <!-- Content -->
+  <div class="px-6 mt-10">
+    <h1 class="text-xl font-semibold">TRADING BOT</h1>
+    <h2 class="text-lg mt-4">SETTINGS</h2>
+    <p class="text-sm text-gray-300 mt-2">
+      First select a currency pair and timeframe, then tap Start Signals to initialize the AI engine.
+    </p>
 
-    function checkReady() {
-      if (pair.value && timeframe.value) {
-        startBtn.classList.remove("opacity-50");
-        warning.classList.add("hidden");
-      }
+    <!-- Currency / BTC Toggle -->
+    <div class="flex gap-4 mt-6">
+      <div class="w-16 h-14 rounded-xl bg-[#0b2d4f] flex items-center justify-center border border-[#1c4e7a] cursor-pointer">
+        <span class="text-xl">$</span>
+      </div>
+      <div class="w-16 h-14 rounded-xl bg-[#0b2d4f] flex items-center justify-center border border-[#1c4e7a] cursor-pointer">
+        <span class="text-xl">₿</span>
+      </div>
+    </div>
+
+    <!-- Dropdowns -->
+    <div class="mt-6 space-y-4">
+      <select id="pair" class="w-full bg-[#1bb6c8] text-white font-semibold p-3 rounded-lg">
+        <option value="">Choose Currency</option>
+        <option>USD/JPY</option>
+        <option>USD/CHF</option>
+        <option>USD/CAD</option>
+        <option>GBP/USD</option>
+        <option>EUR/USD</option>
+        <option>AUD/USD</option>
+      </select>
+      <select id="timeframe" class="w-full bg-[#1bb6c8] text-white font-semibold p-3 rounded-lg">
+        <option value="">Timeframe</option>
+        <option>1 Minute</option>
+        <option>5 Minutes</option>
+        <option>15 Minutes</option>
+        <option>30 Minutes</option>
+        <option>1 Hour</option>
+      </select>
+
+      <button id="startBtn" class="w-full py-4 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 opacity-50">
+        Start Signals
+      </button>
+      <p id="warning" class="text-xs text-red-400 text-center hidden">
+        Please select currency pair and timeframe
+      </p>
+    </div>
+  </div>
+
+  <!-- Premium Modal -->
+  <div id="paymentModal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+    <div class="bg-[#071a2c] w-[90%] max-w-sm rounded-2xl p-6">
+      <h2 class="text-xl font-bold text-center">ABROX AI Premium</h2>
+      <p class="text-center text-gray-400 text-sm mt-1">50 USDT Subscription</p>
+
+      <div class="mt-4 p-3 bg-[#0f2a44] rounded-xl text-sm">
+        <p class="font-semibold">Network</p>
+        <p class="text-green-400">USDT (TRC20)</p>
+      </div>
+
+      <div class="mt-3 p-3 bg-[#0f2a44] rounded-xl">
+        <p class="text-xs text-gray-400">Wallet Address</p>
+        <p id="wallet" class="break-all text-sm mt-1">TY23RUXeNaibpnTnvxxu18qiqtMpDws6yB</p>
+        <button onclick="copyWallet()" class="text-cyan-400 text-xs mt-2">Copy Address</button>
+      </div>
+
+      <p class="text-xs text-red-400 mt-3">
+        ⚠️ Send ONLY USDT via TRC20 network. Sending to another network will result in loss.
+      </p>
+
+      <button id="paidBtn" class="mt-4 w-full py-3 rounded-xl bg-green-500 font-semibold">I Have Paid</button>
+
+      <p class="text-center text-xs text-gray-400 mt-3">
+        Need help?  
+        <a href="https://t.me/official_profithunters" target="_blank" class="text-cyan-400">Contact Support</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- AI Cosmic Processing Modal -->
+  <div id="processingModal" class="hidden fixed inset-0 bg-black/90 flex flex-col items-center justify-center z-50 text-green-400 font-mono">
+    <div class="cosmic-ball"></div>
+    <div id="terminal" class="mt-4 space-y-1 w-[80%] text-sm text-center"></div>
+  </div>
+
+</div>
+
+<script>
+const pair = document.getElementById("pair");
+const timeframe = document.getElementById("timeframe");
+const startBtn = document.getElementById("startBtn");
+const warning = document.getElementById("warning");
+
+function checkReady() {
+  if(pair.value && timeframe.value) {
+    startBtn.classList.remove("opacity-50");
+    warning.classList.add("hidden");
+  }
+}
+pair.onchange = checkReady;
+timeframe.onchange = checkReady;
+
+startBtn.onclick = () => {
+  if(!pair.value || !timeframe.value){
+    warning.classList.remove("hidden");
+    return;
+  }
+  document.getElementById("paymentModal").classList.remove("hidden");
+};
+
+document.getElementById("paidBtn").onclick = () => {
+  document.getElementById("paymentModal").classList.add("hidden");
+  document.getElementById("processingModal").classList.remove("hidden");
+
+  const terminal = document.getElementById("terminal");
+  terminal.innerHTML = "";
+  const logs = [
+    "Connecting to cosmic AI node…",
+    "Initializing secure matrix…",
+    "Loading quantum signal processors…",
+    "Analyzing blockchain TX…",
+    "Encrypting & verifying network (TRC20)…",
+    "❌ Subscription not activated"
+  ];
+  let i = 0;
+  const interval = setInterval(() => {
+    terminal.innerHTML += `<p>${logs[i]}</p>`;
+    i++;
+    if(i===logs.length){
+      clearInterval(interval);
+      terminal.innerHTML += `
+      <p class="mt-2 text-red-400">Action required: Contact customer support to complete activation.</p>
+      <a href="https://t.me/official_profithunters" target="_blank" class="text-cyan-400 underline mt-1 inline-block">t.me/official_profithunters</a>`;
     }
+  },700);
+}
 
-    pair.onchange = checkReady;
-    timeframe.onchange = checkReady;
-
-    startBtn.onclick = () => {
-      if (!pair.value || !timeframe.value) {
-        warning.classList.remove("hidden");
-        return;
-      }
-      document.getElementById("paymentModal").classList.remove("hidden");
-    };
-
-    document.getElementById("paidBtn").onclick = () => {
-      document.getElementById("paymentModal").classList.add("hidden");
-      document.getElementById("pendingModal").classList.remove("hidden");
-    };
-
-    function copyWallet() {
-      navigator.clipboard.writeText(
-        "TY23RUXeNaibpnTnvxxu18qiqtMpDws6yB"
-      );
-      alert("Wallet address copied");
-    }
-  </script>
+function copyWallet() {
+  navigator.clipboard.writeText("TY23RUXeNaibpnTnvxxu18qiqtMpDws6yB");
+  alert("Wallet address copied");
+}
+</script>
 
 </body>
 </html>
