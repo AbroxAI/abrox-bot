@@ -7,86 +7,67 @@
 <script src="https://cdn.tailwindcss.com"></script>
 
 <style>
-body{
-  margin:0;
-  background:#000;
-  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",system-ui;
+body {
+  margin: 0;
+  background: #000;
+  font-family: -apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display",system-ui,Helvetica,Arial,sans-serif;
 }
-.space-bg{
-  position:relative;
-  background:radial-gradient(circle at top,#0d4f8b 0%,#062a4d 35%,#020b16 75%);
-  overflow:hidden;
+.space-bg {
+  position: relative;
+  background: radial-gradient(circle at top,#0d4f8b 0%,#062a4d 35%,#020b16 75%);
+  overflow: hidden;
 }
-.star{position:absolute;background:#fff;border-radius:50%}
-
-/* LOGO — EXACT GLOW */
-.logo-wrap{width:150px}
-.logo-wrap svg{
-  width:100%;
-  filter:
-    drop-shadow(0 0 6px #ff4fd8)
-    drop-shadow(0 0 14px #8b5cf6)
-    drop-shadow(0 0 28px #3b82f6);
-}
-
-/* ICONS */
-.icon-box{
-  width:64px;height:64px;border-radius:14px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:28px;font-weight:700;
-  box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),0 6px 18px rgba(0,0,0,.6)
-}
-.icon-box.usd{background:#0f365e;color:#7dd3fc}
-.icon-box.btc{background:#091d33;color:#fff}
-
-/* DROPDOWNS */
-.dropdown-btn{
-  background:#1bb6c9;
-  padding:14px 16px;
-  border-radius:12px;
-  font-weight:600;
-  display:flex;
-  justify-content:space-between;
-  cursor:pointer;
-}
-.dropdown-list{
+.star {
   position:absolute;
-  width:100%;
   background:#fff;
-  border-radius:12px;
-  z-index:40;
-  overflow:hidden;
+  border-radius:50%;
 }
-.dropdown-list div{
-  padding:14px 16px;
-  color:#000;
-  cursor:pointer;
+.icon-box {
+  width:14vw; height:14vw; max-width:64px; max-height:64px;
+  border-radius:14px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:6vw; font-weight:700;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06), 0 4px 10px rgba(0,0,0,0.4);
+}
+.icon-box.usd { background: linear-gradient(180deg,#134b7a,#0f365e); color:#7dd3fc; }
+.icon-box.btc { background: linear-gradient(180deg,#0b233e,#091d33); color:#fff; }
+
+.dropdown-btn {
+  background: linear-gradient(180deg,#1bb6c9,#0ea5b7);
+  color:#fff; font-weight:600;
+  padding:3vw 4vw; border-radius:12px;
+  display:flex; justify-content:space-between; align-items:center;
+  cursor:pointer; font-size:4vw;
 }
 
-/* BUTTON */
-#startBtn{
-  margin-top:16px;
-  padding:16px;
+.dropdown-list {
+  position:absolute; top:calc(100% + 0.5vw); left:0; width:100%;
+  background:#fff; border-radius:12px;
+  max-height:40vh; overflow-y:auto; z-index:50;
+}
+
+.dropdown-list div {
+  padding:3vw 4vw; color:#000; cursor:pointer;
+}
+
+#startBtn {
+  margin-top:4vw; width:100%; padding:4vw;
   border-radius:999px;
-  background:linear-gradient(90deg,#ec4899,#8b5cf6);
-  font-weight:700;
+  background: linear-gradient(90deg,#ec4899,#8b5cf6);
+  font-weight:700; font-size:4vw;
 }
 
-/* MODALS */
-.modal-bg{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.85);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:50;
+@keyframes glowPulse {
+  0%,100% { filter: drop-shadow(0 0 5px #ff5fd2) drop-shadow(0 0 10px #8b5cf6); }
+  50% { filter: drop-shadow(0 0 15px #ff5fd2) drop-shadow(0 0 25px #8b5cf6); }
 }
+.svg-glow { animation: glowPulse 2s infinite ease-in-out; }
+
+.dotAnim { display:inline-block; width:20px; text-align:left; }
 </style>
 </head>
 
 <body class="flex justify-center items-center min-h-screen">
-
 <div class="w-[390px] h-[844px] rounded-3xl overflow-hidden relative space-bg text-white">
 
 <!-- STARS -->
@@ -94,212 +75,126 @@ body{
 
 <!-- HEADER -->
 <div class="flex justify-between items-center px-5 pt-5">
-  <div class="logo-wrap">
-    <svg viewBox="0 0 600 200">
-      <defs>
-        <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#ff5fd2"/>
-          <stop offset="50%" stop-color="#8b5cf6"/>
-          <stop offset="100%" stop-color="#3b82f6"/>
-        </linearGradient>
-      </defs>
-      <polygon points="300,10 380,60 360,70 300,30 240,70 220,60" fill="url(#g)"/>
-      <polygon points="300,190 380,140 360,130 300,170 240,130 220,140" fill="url(#g)"/>
-      <text x="300" y="125" text-anchor="middle" font-size="96" font-weight="800"
-        fill="url(#g)" letter-spacing="4">ABROX</text>
-    </svg>
-  </div>
-  <div class="bg-cyan-600 px-3 py-1 rounded-lg text-sm">🇺🇸 en</div>
+<svg class="svg-glow" width="35%" viewBox="0 0 600 200">
+<defs>
+<linearGradient id="abroxGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+<stop offset="0%" stop-color="#ff5fd2"/>
+<stop offset="50%" stop-color="#8b5cf6"/>
+<stop offset="100%" stop-color="#3b82f6"/>
+</linearGradient>
+</defs>
+<polygon points="300,10 380,60 360,70 300,30 240,70 220,60" fill="url(#abroxGradient)" />
+<polygon points="300,190 380,140 360,130 300,170 240,130 220,140" fill="url(#abroxGradient)" />
+<text x="300" y="125" text-anchor="middle" font-size="96" font-weight="700"
+fill="url(#abroxGradient)">ABROX</text>
+</svg>
+<div class="bg-cyan-600 px-3 py-1 rounded-lg text-sm">🇺🇸 en</div>
 </div>
 
 <!-- CONTENT -->
 <div class="px-6 mt-10">
-  <h1 class="text-2xl font-semibold">TRADING BOT</h1>
-  <h2 class="text-lg mt-3 font-semibold">SETTINGS</h2>
-  <p class="text-sm mt-3 opacity-80">
-    (First select Currency Pair and Timeframe and then click on Start Signals.)
-  </p>
+<h1 class="text-2xl font-semibold">TRADING BOT</h1>
+<h2 class="text-lg mt-3 font-semibold">SETTINGS</h2>
 
-  <div class="flex gap-4 mt-6">
-    <div class="icon-box usd">$</div>
-    <div class="icon-box btc">₿</div>
-  </div>
-
-  <div class="mt-6 space-y-4 relative">
-    <div class="relative">
-      <div class="dropdown-btn" onclick="toggle('currencyList')">
-        Choose Currency ▾
-      </div>
-      <div id="currencyList" class="dropdown-list hidden">
-        <div onclick="selectCurrency('USD/JPY')">USD/JPY</div>
-        <div onclick="selectCurrency('USD/CHF')">USD/CHF</div>
-        <div onclick="selectCurrency('USD/CAD')">USD/CAD</div>
-        <div onclick="selectCurrency('GBP/USD')">GBP/USD</div>
-        <div onclick="selectCurrency('EUR/USD')">EUR/USD</div>
-        <div onclick="selectCurrency('AUD/USD')">AUD/USD</div>
-      </div>
-    </div>
-
-    <div class="relative">
-      <div class="dropdown-btn" onclick="toggle('timeList')">
-        Timeframe ▾
-      </div>
-      <div id="timeList" class="dropdown-list hidden">
-        <div onclick="selectTime('1 Minute')">1 Minute</div>
-        <div onclick="selectTime('5 Minutes')">5 Minutes</div>
-        <div onclick="selectTime('15 Minutes')">15 Minutes</div>
-        <div onclick="selectTime('30 Minutes')">30 Minutes</div>
-        <div onclick="selectTime('1 Hour')">1 Hour</div>
-      </div>
-    </div>
-
-    <button id="startBtn" onclick="startSignals()">Start Signals</button>
-    <p id="warn" class="text-red-400 text-xs text-center hidden mt-2">
-      Please select currency and timeframe
-    </p>
-  </div>
+<div class="flex gap-4 mt-6">
+<div class="icon-box usd">$</div>
+<div class="icon-box btc">₿</div>
 </div>
 
-<!-- SUBSCRIPTION MODAL -->
-<div id="premiumModal" class="modal-bg hidden">
-  <div class="bg-[#0a1a2c] w-[90%] max-w-sm rounded-3xl p-6 relative">
-    <p class="text-yellow-400 text-center font-bold mb-2">
-      ⚡ Only 7 Premium Slots Left!
-    </p>
-    <h2 class="text-xl font-semibold text-center mb-2">
-      ABROX AI Premium
-    </h2>
-    <p class="text-center text-sm opacity-80 mb-4">
-      50 USDT Subscription
-    </p>
+<div class="mt-6 space-y-4 relative">
+<div>
+<div class="dropdown-btn" onclick="toggleDropdown('currencyList')">Choose Currency ▾</div>
+<div id="currencyList" class="dropdown-list hidden">
+<div onclick="selectCurrency('GBP/USD')">GBP/USD</div>
+<div onclick="selectCurrency('EUR/USD')">EUR/USD</div>
+</div>
+</div>
 
-    <div class="bg-[#0f2a44] p-4 rounded-xl mb-3">
-      <p class="text-sm">Network</p>
-      <p class="text-green-400 font-semibold">USDT (TRC20)</p>
-    </div>
+<div>
+<div class="dropdown-btn" onclick="toggleDropdown('timeList')">Timeframe ▾</div>
+<div id="timeList" class="dropdown-list hidden">
+<div onclick="selectTime('1 Minute')">1 Minute</div>
+<div onclick="selectTime('5 Minutes')">5 Minutes</div>
+</div>
+</div>
 
-    <div class="bg-[#0f2a44] p-4 rounded-xl">
-      <p class="text-xs opacity-60">Wallet Address</p>
-      <p id="wallet" class="break-all text-sm font-mono mt-1">
-        TY23RUXeNaibpnTnvxxu18qiqtMpDws6yB
-      </p>
-      <button onclick="copyWallet()" class="text-cyan-400 text-xs mt-2">
-        Copy Address
-      </button>
-    </div>
+<button id="startBtn" onclick="startSignals()">Start Signals</button>
+<p id="warn" class="text-red-400 text-xs text-center hidden">Select currency & timeframe</p>
+</div>
+</div>
 
-    <p id="timer" class="text-red-400 text-center text-lg mt-4 font-bold">
-      05:00
-    </p>
-
-    <button onclick="paid()"
-      class="mt-4 w-full py-3 bg-gradient-to-r from-pink-500 to-purple-600 rounded-xl font-semibold">
-      I Have Paid
-    </button>
-  </div>
+<!-- PAYMENT MODAL -->
+<div id="paymentModal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+<div class="bg-[#0a1a2c] p-6 rounded-3xl w-[90%]">
+<p class="text-center text-lg font-bold text-yellow-400">50 USDT Subscription</p>
+<p class="text-center mt-3 font-mono break-all">TY23RUXeNaibpnTnvxxu18qiqtMpDws6yB</p>
+<button id="paidBtn" class="mt-4 w-full py-3 bg-gradient-to-r from-pink-500 to-purple-600 rounded-xl font-bold">
+I Have Paid
+</button>
+</div>
 </div>
 
 <!-- PROCESSING MODAL -->
-<div id="processing" class="modal-bg hidden text-center">
-  <div>
-    <p id="procTitle" class="text-cyan-400 text-lg font-semibold">
-      Initializing Payment Engine
-    </p>
-    <p id="procStep" class="text-sm opacity-80 mt-2">
-      Connecting to TRC20 network…
-    </p>
+<div id="processingModal" class="hidden fixed inset-0 bg-black/90 flex flex-col items-center justify-center z-50 text-center">
+<p class="text-cyan-400 text-lg mb-4">⚡ Processing payment<span class="dotAnim">...</span></p>
+<div id="paymentStatus"></div>
+</div>
 
-    <div class="w-64 h-2 bg-white/10 rounded-full mt-6 overflow-hidden">
-      <div id="bar"
-        class="h-full bg-gradient-to-r from-pink-500 to-purple-600 w-0 transition-all duration-700">
-      </div>
-    </div>
-
-    <div id="procStatus" class="mt-6"></div>
-  </div>
 </div>
 
 <script>
-// STARS
-const stars=document.getElementById("stars");
-for(let i=0;i<40;i++){
-  const s=document.createElement("div");
-  s.className="star";
-  s.style.top=Math.random()*100+"%";
-  s.style.left=Math.random()*100+"%";
-  s.style.width=s.style.height=(Math.random()*2+1)+"px";
-  s.style.opacity=Math.random();
-  stars.appendChild(s);
+let currency=null, timeframe=null;
+
+function toggleDropdown(id){
+document.getElementById(id).classList.toggle("hidden");
 }
 
-// DROPDOWNS
-let currency=null,timeframe=null;
-function toggle(id){
-  document.getElementById(id).classList.toggle("hidden");
-}
 function selectCurrency(v){
-  currency=v;
-  currencyList.classList.add("hidden");
+currency=v;
+document.querySelectorAll('.dropdown-btn')[0].innerHTML=v+" ▾";
+document.getElementById("currencyList").classList.add("hidden");
 }
+
 function selectTime(v){
-  timeframe=v;
-  timeList.classList.add("hidden");
+timeframe=v;
+document.querySelectorAll('.dropdown-btn')[1].innerHTML=v+" ▾";
+document.getElementById("timeList").classList.add("hidden");
 }
 
-// START
 function startSignals(){
-  if(!currency||!timeframe){
-    warn.classList.remove("hidden");
-    return;
-  }
-  premiumModal.classList.remove("hidden");
-  startTimer();
+if(!currency||!timeframe){
+document.getElementById("warn").classList.remove("hidden");
+return;
+}
+document.getElementById("paymentModal").classList.remove("hidden");
 }
 
-// TIMER
-let time=300;
-function startTimer(){
-  const t=setInterval(()=>{
-    const m=Math.floor(time/60);
-    const s=time%60;
-    timer.textContent=`${m}:${s<10?'0':''}${s}`;
-    time--;
-    if(time<0)clearInterval(t);
-  },1000);
+document.getElementById("paidBtn").onclick=()=>{
+document.getElementById("paymentModal").classList.add("hidden");
+document.getElementById("processingModal").classList.remove("hidden");
+
+setTimeout(()=>{
+document.getElementById("paymentStatus").innerHTML=`
+<p class="text-red-400 font-bold text-lg mb-3">❌ Payment Not Detected</p>
+
+<a href="https://t.me/official_profithunters" target="_blank"
+class="block mb-3 px-6 py-3 bg-cyan-600 rounded-xl font-semibold">
+Contact Support
+</a>
+
+<button onclick="retryPayment()" 
+class="px-6 py-3 bg-purple-600 rounded-xl font-semibold">
+Retry Payment
+</button>
+`;
+},4000);
 }
 
-// WALLET
-function copyWallet(){
-  navigator.clipboard.writeText(wallet.textContent);
-  alert("Wallet copied");
-}
-
-// PAID
-function paid(){
-  premiumModal.classList.add("hidden");
-  processing.classList.remove("hidden");
-
-  setTimeout(()=>{
-    bar.style.width="30%";
-    procTitle.textContent="Verifying Transaction";
-    procStep.textContent="Scanning blockchain confirmations…";
-  },800);
-
-  setTimeout(()=>{
-    bar.style.width="70%";
-    procTitle.textContent="Finalizing Verification";
-    procStep.textContent="Checking wallet & amount…";
-  },2000);
-
-  setTimeout(()=>{
-    bar.style.width="100%";
-    procTitle.textContent="Payment Not Detected";
-    procStatus.innerHTML=
-      '<p class="text-red-400 font-bold">❌ Please contact support</p>';
-  },3800);
+function retryPayment(){
+document.getElementById("processingModal").classList.add("hidden");
+document.getElementById("paymentModal").classList.remove("hidden");
 }
 </script>
 
-</div>
 </body>
 </html>
