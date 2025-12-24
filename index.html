@@ -73,7 +73,7 @@ body {
 @media(max-width: 420px){
   .w-[390px] { width: 95vw; }
   .h-[844px] { height: 95vh; }
-  svg text { font-size: 14vw !important; } /* bigger logo text on mobile */
+  svg text { font-size: 14vw !important; } 
   #startBtn { padding: 3vw; font-size: 4vw; }
   .dropdown-btn { padding:2.5vw 3vw; font-size:3.5vw; }
 }
@@ -106,9 +106,10 @@ body {
   <div id="stars"></div>
 
   <!-- HEADER -->
-  <div class="flex justify-between items-center px-5 pt-5">
-    <!-- Updated dynamic logo -->
-    <svg id="abroxLogo" class="svg-glow" viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg" style="width: clamp(200px, 50%, 400px); height: auto;">
+  <div class="flex justify-between items-center px-5" style="height: clamp(60px,12vw,100px);">
+    <!-- Responsive & balanced logo -->
+    <svg id="abroxLogo" class="svg-glow" viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg"
+         style="width: clamp(150px,40%,400px); height: 100%;" preserveAspectRatio="xMidYMid meet">
       <defs>
         <linearGradient id="abroxGradient" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stop-color="#ff5fd2"/>
@@ -116,9 +117,18 @@ body {
           <stop offset="100%" stop-color="#3b82f6"/>
         </linearGradient>
       </defs>
-      <polygon points="300,10 380,60 360,70 300,30 240,70 220,60" fill="url(#abroxGradient)" />
-      <polygon points="300,190 380,140 360,130 300,170 240,130 220,140" fill="url(#abroxGradient)" />
-      <text x="300" y="125" text-anchor="middle" font-size="6vw" font-weight="700" font-family="-apple-system, BlinkMacSystemFont, SF Pro Display, system-ui" fill="url(#abroxGradient)" letter-spacing="4">ABROX</text>
+      <g transform="translate(300,100)">
+        <polygon points="-60,-80 60,-40 40,-25 0,-65 -40,-25 -60,-40" fill="url(#abroxGradient)" />
+        <polygon points="-60,80 60,40 40,25 0,65 -40,25 -60,40" fill="url(#abroxGradient)" />
+        <text x="0" y="10" text-anchor="middle" font-size="clamp(18px,6vw,60px)" font-weight="700"
+              font-family="-apple-system,BlinkMacSystemFont,SF Pro Display,system-ui"
+              fill="url(#abroxGradient)"
+              style="filter: drop-shadow(0 0 5px #ff5fd2)
+                            drop-shadow(0 0 10px #8b5cf6)
+                            drop-shadow(0 0 20px #3b82f6);">
+          ABROX
+        </text>
+      </g>
     </svg>
     <div class="bg-cyan-600 px-3 py-1 rounded-lg text-sm font-medium">🇺🇸 en</div>
   </div>
