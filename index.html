@@ -83,7 +83,6 @@ body {
   #startBtn { padding: 3vw; font-size: 4vw; }
   .dropdown-btn { padding:2.5vw 3vw; font-size:3.5vw; }
 }
-/* Processing spinner */
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 @keyframes glowPulseSpin {
   0%,100% { filter: drop-shadow(0 0 10px #ff5fd2) drop-shadow(0 0 15px #8b5cf6); }
@@ -139,8 +138,76 @@ body {
     <div class="bg-cyan-600 px-3 py-1 rounded-lg text-sm font-medium">🇺🇸 en</div>
   </div>
 
-  <!-- Rest of your content, modals, and scripts remain unchanged -->
-  <!-- ... -->
+  <!-- CONTENT -->
+  <div class="px-6 mt-10 relative">
+    <h1 class="text-2xl font-semibold tracking-tight">TRADING BOT</h1>
+    <h2 class="text-lg mt-3 font-semibold tracking-tight">SETTINGS</h2>
+    <p class="text-sm mt-3 opacity-80 leading-snug">(First select Currency Pair and Timeframe and then click on Start Signals.)</p>
+    <div class="flex gap-4 mt-6">
+      <div class="icon-box usd"><span>$</span></div>
+      <div class="icon-box btc"><span>₿</span></div>
+    </div>
+    <div class="mt-6 space-y-4 relative">
+      <div class="relative">
+        <div class="dropdown-btn" onclick="toggleDropdown('currencyList')">Choose Currency <span class="text-sm">▾</span></div>
+        <div id="currencyList" class="dropdown-list hidden">
+          <div onclick="selectCurrency('USD/JPY')">USD/JPY</div>
+          <div onclick="selectCurrency('USD/CHF')">USD/CHF</div>
+          <div onclick="selectCurrency('USD/CAD')">USD/CAD</div>
+          <div onclick="selectCurrency('GBP/USD')">GBP/USD</div>
+          <div onclick="selectCurrency('EUR/USD')">EUR/USD</div>
+          <div onclick="selectCurrency('AUD/USD')">AUD/USD</div>
+        </div>
+      </div>
+      <div class="relative">
+        <div class="dropdown-btn" onclick="toggleDropdown('timeList')">Timeframe <span class="text-sm">▾</span></div>
+        <div id="timeList" class="dropdown-list hidden">
+          <div onclick="selectTime('1 Minute')">1 Minute</div>
+          <div onclick="selectTime('5 Minutes')">5 Minutes</div>
+          <div onclick="selectTime('15 Minutes')">15 Minutes</div>
+          <div onclick="selectTime('30 Minutes')">30 Minutes</div>
+          <div onclick="selectTime('1 Hour')">1 Hour</div>
+        </div>
+      </div>
+      <button id="startBtn" onclick="startSignals()">Start Signals</button>
+      <p id="warn" class="text-red-400 text-xs text-center hidden mt-2">Please select currency and timeframe</p>
+    </div>
+  </div>
+
+  <!-- PREMIUM MODAL -->
+  <div id="paymentModal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+    <div class="bg-[#0a1a2c] w-[90%] max-w-sm rounded-3xl p-6 relative shadow-lg">
+      <p id="slotCounter" class="text-yellow-400 font-bold text-center mb-2 animate-pulse">⚡ Only 7 Premium Slots Left!</p>
+      <h2 class="text-xl font-semibold text-center tracking-tight mb-1">ABROX AI Premium</h2>
+      <p class="text-center text-sm opacity-80 mb-2">Unlock full AI signals & exclusive trading opportunities!</p>
+      <p class="text-center text-sm opacity-80 mb-4">50 USDT Subscription</p>
+      <div class="mt-2 bg-[#0f2a44] p-4 rounded-xl shadow-inner">
+        <p class="font-medium">Network</p>
+        <p class="text-green-400 font-semibold">USDT (TRC20)</p>
+      </div>
+      <div class="mt-3 bg-[#0f2a44] p-4 rounded-xl shadow-inner">
+        <p class="text-xs opacity-60">Wallet Address</p>
+        <p class="break-all text-sm mt-1 font-mono" id="walletAddress">TY23RUXeNaibpnTnvxxu18qiqtMpDws6yB</p>
+        <button onclick="copyWallet()" class="text-cyan-400 text-xs mt-2 hover:underline">Copy Address</button>
+      </div>
+      <p id="countdownTimer" class="text-red-400 text-center text-sm mt-3 font-bold text-lg">05:00</p>
+      <p class="text-xs text-red-400 mt-2">⚠️ Send ONLY USDT via TRC20 network. Using another network will result in permanent loss.</p>
+      <button id="paidBtn" class="mt-5 w-full py-3 bg-gradient-to-r from-pink-500 to-purple-600 rounded-xl font-semibold text-white hover:scale-105 transition-transform shadow-lg">I Have Paid</button>
+      <span class="absolute top-3 right-3 bg-pink-500 text-white text-xs font-bold px-2 py-1 rounded-full animate-pulse">PREMIUM</span>
+    </div>
+  </div>
+
+  <!-- PROCESSING MODAL -->
+  <div id="processingModal" class="hidden fixed inset-0 bg-black/90 flex flex-col items-center justify-center z-50 text-white font-mono text-center">
+    <p class="text-cyan-400 text-lg mb-2">⚡ Processing your payment<span id="dotAnim" class="dotAnim"></span></p>
+    <div class="processing-circle mb-4"><div></div></div>
+    <div id="paymentStatus"></div>
+    <div id="postPaymentActions" class="mt-2 flex gap-4 hidden">
+      <button id="retryBtn" class="px-4 py-2 bg-gradient-to-r from-pink-500 to-purple-600 rounded-lg text-white font-semibold hover:scale-105 transition-transform">Retry Payment</button>
+      <a href="https://t.me/official_profithunters" target="_blank" class="px-4 py-2 bg-cyan-500 rounded-lg text-white font-semibold hover:scale-105 transition-transform">Contact Support</a>
+    </div>
+  </div>
+
 </div>
 
 <script>
