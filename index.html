@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>ABROX AI Trading Bot</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ABROX AI Trading Bot – Limited Offer $250</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
 body { margin:0; background:#000; font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display",system-ui,Helvetica,Arial,sans-serif; }
@@ -40,6 +40,9 @@ body { margin:0; background:#000; font-family:-apple-system,BlinkMacSystemFont,"
 @keyframes glowPulseSpin{0%,100%{filter:drop-shadow(0 0 10px #ff5fd2) drop-shadow(0 0 15px #8b5cf6);} 50%{filter:drop-shadow(0 0 25px #ff5fd2) drop-shadow(0 0 35px #8b5cf6);}}
 .processing-circle{width:96px;height:96px;position:relative;z-index:10;}
 .processing-circle div{width:100%;height:100%;border-radius:50%;border:6px solid transparent;border-top-color:#ff5fd2;border-bottom-color:#3b82f6;animation:spin 1s linear infinite,glowPulseSpin 2s infinite ease-in-out;}
+
+.modal-transition { transition: all 0.25s ease-out; }
+.feature-check { background: linear-gradient(135deg, #10b981, #059669); }
 </style>
 </head>
 <body class="flex justify-center items-center min-h-screen">
@@ -51,7 +54,7 @@ body { margin:0; background:#000; font-family:-apple-system,BlinkMacSystemFont,"
   <!-- HEADER -->
   <div class="header">
     <div class="logo-container">
-      <img id="abroxLogo" src="assets/logo.png" alt="ABROX Logo"/>
+      <img id="abroxLogo" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 60'%3E%3Ctext x='10' y='45' fill='white' font-family='Arial' font-weight='bold' font-size='32'%3EABROX%3C/text%3E%3Ctext x='110' y='45' fill='%23ff5fd2' font-family='Arial' font-weight='bold' font-size='28'%3EAI%3C/text%3E%3C/svg%3E" alt="ABROX Logo"/>
     </div>
     <div class="bg-cyan-600 px-3 py-1 rounded-lg text-sm font-medium">🇺🇸 en</div>
   </div>
@@ -94,13 +97,82 @@ body { margin:0; background:#000; font-family:-apple-system,BlinkMacSystemFont,"
     </div>
   </div>
 
-  <!-- PREMIUM MODAL -->
+  <!-- DISCOUNT CODE MODAL (with new hint text) -->
+  <div id="discountModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50">
+    <div class="bg-gradient-to-b from-[#0a1a2c] to-[#05101f] w-[85%] max-w-sm rounded-3xl p-6 relative shadow-2xl border border-white/10">
+      <div class="absolute top-3 right-3">
+        <button onclick="closeDiscountModal()" class="text-gray-400 hover:text-white text-xl">&times;</button>
+      </div>
+      <div class="text-center mb-4">
+        <div class="inline-block bg-pink-600/20 px-3 py-1 rounded-full text-pink-400 text-xs font-semibold tracking-wide">🎁 EXCLUSIVE ACCESS</div>
+      </div>
+      <h2 class="text-2xl font-bold text-center tracking-tight bg-gradient-to-r from-cyan-300 to-pink-400 bg-clip-text text-transparent">Enter Discount Code</h2>
+      <p class="text-center text-gray-300 text-sm mt-2">Input discount code to unlock access</p>
+      <div class="mt-5">
+        <input type="text" id="discountCodeInput" placeholder="e.g. SAVE250" class="w-full bg-[#0f2a44] border border-cyan-500/40 rounded-xl p-3 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-500">
+        <p class="text-[10px] text-gray-400 mt-1">* Enter any valid code to continue</p>
+      </div>
+      <button id="applyDiscountBtn" class="mt-5 w-full py-3 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl font-bold text-white shadow-lg hover:scale-[1.02] transition-transform">Apply Code →</button>
+    </div>
+  </div>
+
+  <!-- LIMITED OFFER MODAL (exactly as screenshot but price $250 was $500) -->
+  <div id="limitedOfferModal" class="hidden fixed inset-0 bg-black/90 backdrop-blur-md flex items-center justify-center z-50 p-3">
+    <div class="bg-gradient-to-b from-[#0c1f33] to-[#041020] rounded-3xl max-w-sm w-full border border-white/15 shadow-2xl overflow-hidden relative">
+      <button onclick="closeLimitedOfferModal()" class="absolute top-3 right-4 z-20 text-white/60 hover:text-white text-2xl">&times;</button>
+      <div class="relative p-5 pb-2">
+        <div class="flex justify-between items-start">
+          <span class="bg-red-600 text-white text-[11px] font-bold px-3 py-1 rounded-full tracking-wide">LIMITED OFFER</span>
+          <span class="bg-gradient-to-r from-yellow-500 to-orange-500 text-black text-[10px] font-bold px-2 py-1 rounded-full">⚡ SALE</span>
+        </div>
+        <h3 class="text-2xl font-extrabold mt-3 tracking-tight text-white">Choose Your Plan</h3>
+        
+        <!-- Most Popular Badge -->
+        <div class="flex justify-center mt-1">
+          <span class="bg-pink-600 text-white text-xs font-bold px-4 py-0.5 rounded-full shadow-lg">MOST POPULAR</span>
+        </div>
+
+        <!-- Price Card with $250 was $500 -->
+        <div class="mt-4 bg-white/5 rounded-2xl p-4 backdrop-blur-sm border border-white/10">
+          <div class="text-center">
+            <p class="text-sm text-gray-300 uppercase tracking-wider">Lifetime Premium</p>
+            <div class="flex items-center justify-center gap-2 mt-1">
+              <span class="text-5xl font-black text-white">$250</span>
+              <span class="text-gray-400 line-through text-xl">$500</span>
+            </div>
+            <div class="inline-block bg-emerald-500/20 text-emerald-300 text-xs px-2 py-0.5 rounded-full mt-1">Save 50% today only</div>
+          </div>
+        </div>
+
+        <!-- Flash sale banner matching the $250/$500 context -->
+        <div class="mt-3 bg-gradient-to-r from-amber-500/20 to-rose-500/20 rounded-xl p-2 text-center border border-amber-400/30">
+          <p class="text-sm font-bold text-amber-300">🔥 FLASH SALE: <span class="line-through text-white/60">$500</span> <span class="text-white font-black">$250</span> <span class="text-xs text-amber-200">(was $500)</span></p>
+          <p class="text-[10px] text-white/70">Limited time offer – unlock lifetime AI signals</p>
+        </div>
+
+        <!-- Features list (unchanged from your design) -->
+        <div class="mt-4 space-y-2">
+          <div class="flex items-center gap-2 text-sm"><span class="w-5 h-5 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full inline-flex items-center justify-center text-white text-xs">✓</span> <span>Lifetime access – Pay once, use forever</span></div>
+          <div class="flex items-center gap-2 text-sm"><span class="w-5 h-5 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full inline-flex items-center justify-center text-white text-xs">✓</span> <span>All brokers – Works with any broker</span></div>
+          <div class="flex items-center gap-2 text-sm"><span class="w-5 h-5 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full inline-flex items-center justify-center text-white text-xs">✓</span> <span>Priority support – 24/7 dedicated assistance</span></div>
+          <div class="flex items-center gap-2 text-sm"><span class="w-5 h-5 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full inline-flex items-center justify-center text-white text-xs">✓</span> <span>VIP group access – Exclusive members community</span></div>
+          <div class="flex items-center gap-2 text-sm"><span class="w-5 h-5 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full inline-flex items-center justify-center text-white text-xs">✓</span> <span>Live sessions 3x per day via Meet – Daily expert guidance</span></div>
+          <div class="flex items-center gap-2 text-sm"><span class="w-5 h-5 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full inline-flex items-center justify-center text-white text-xs">✓</span> <span>Copy trade enabled – Replicate top traders instantly</span></div>
+        </div>
+
+        <button id="getLifetimeBtn" class="mt-6 w-full py-3.5 bg-gradient-to-r from-pink-600 to-purple-700 rounded-xl font-bold text-white text-lg shadow-xl hover:scale-[1.02] transition-all flex items-center justify-center gap-2">Get Lifetime Access — $250 <span class="text-xs opacity-80">➡️</span></button>
+        <p class="text-[10px] text-center text-gray-400 mt-3">One-time payment · No recurring fees</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PREMIUM SUBSCRIPTION MODAL (UPDATED PRICE TO $250 USDT) -->
   <div id="paymentModal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50">
     <div class="bg-[#0a1a2c] w-[90%] max-w-sm rounded-3xl p-6 relative shadow-lg">
       <p id="slotCounter" class="text-yellow-400 font-bold text-center mb-2 animate-pulse">⚡ Only 3 Premium Slots Left!</p>
       <h2 class="text-xl font-semibold text-center tracking-tight mb-1">ABROX AI Premium</h2>
       <p class="text-center text-sm opacity-80 mb-2">Unlock full AI signals & exclusive trading opportunities!</p>
-      <p class="text-center text-sm opacity-80 mb-4">50 USDT Subscription</p>
+      <p class="text-center text-sm opacity-80 mb-4">250 USDT Subscription</p>
       <div class="mt-2 bg-[#0f2a44] p-4 rounded-xl shadow-inner">
         <p class="font-medium">Network</p>
         <p class="text-green-400 font-semibold">USDT (TRC20)</p>
@@ -117,7 +189,7 @@ body { margin:0; background:#000; font-family:-apple-system,BlinkMacSystemFont,"
     </div>
   </div>
 
-  <!-- PROCESSING MODAL -->
+  <!-- PROCESSING MODAL (unchanged) -->
   <div id="processingModal" class="hidden fixed inset-0 bg-black/90 flex flex-col items-center justify-center z-50 text-white font-mono text-center">
     <p class="text-cyan-400 text-lg mb-2">⚡ Processing your payment<span id="dotAnim" class="dotAnim"></span></p>
     <div class="processing-circle mb-4"><div></div></div>
@@ -131,7 +203,7 @@ body { margin:0; background:#000; font-family:-apple-system,BlinkMacSystemFont,"
 </div>
 
 <script>
-// Stars
+// Stars generation
 const starsContainer=document.getElementById("stars");
 for(let i=0;i<40;i++){
   const s=document.createElement("div");
@@ -143,15 +215,11 @@ for(let i=0;i<40;i++){
   starsContainer.appendChild(s);
 }
 
-// Dropdowns
+// Dropdown logic
 let currency=null,timeframe=null;
 function toggleDropdown(id){ document.getElementById(id).classList.toggle("hidden"); }
 function selectCurrency(val){ currency=val; document.querySelectorAll('.dropdown-btn')[0].innerHTML = val+' <span class="text-sm">▾</span>'; document.getElementById('currencyList').classList.add("hidden"); highlightOption('currencyList',val); }
 function selectTime(val){ timeframe=val; document.querySelectorAll('.dropdown-btn')[1].innerHTML = val+' <span class="text-sm">▾</span>'; document.getElementById('timeList').classList.add("hidden"); highlightOption('timeList',val); }
-function startSignals(){ 
-  if(!currency||!timeframe){ document.getElementById("warn").classList.remove("hidden"); return; } 
-  showPaymentModal(); 
-}
 
 document.addEventListener('click',e=>{
   if(!e.target.closest('.dropdown-btn')){
@@ -171,7 +239,34 @@ function highlightOption(listId,value){
   }
 }
 
-// Premium modal logic
+// ---------- FLOW: Discount Code -> Limited Offer ($250 was $500) -> Payment Modal ($250 USDT) ----------
+function startSignals(){
+  if(!currency||!timeframe){ 
+    document.getElementById("warn").classList.remove("hidden"); 
+    return; 
+  }
+  document.getElementById("warn").classList.add("hidden");
+  // Step 1: show discount code modal
+  showDiscountModal();
+}
+
+// Discount modal
+function showDiscountModal(){
+  document.getElementById("discountModal").classList.remove("hidden");
+}
+function closeDiscountModal(){
+  document.getElementById("discountModal").classList.add("hidden");
+}
+
+// Limited offer modal
+function showLimitedOfferModal(){
+  document.getElementById("limitedOfferModal").classList.remove("hidden");
+}
+function closeLimitedOfferModal(){
+  document.getElementById("limitedOfferModal").classList.add("hidden");
+}
+
+// Payment modal (USDT $250)
 let remainingSlots=7, countdown=300;
 const slotCounter=document.getElementById('slotCounter');
 const countdownTimer=document.getElementById('countdownTimer');
@@ -192,13 +287,31 @@ function startCountdown(){
 }
 function copyWallet(){ navigator.clipboard.writeText("TY23RUXeNaibpnTnvxxu18qiqtMpDws6yB").then(()=>alert("Wallet address copied")).catch(()=>alert("Copy failed")); }
 
-// Processing Dots
+// Dot animation for processing
 const dotSpan = document.getElementById('dotAnim');
 let dotCount = 0, dotInterval;
 function startDotAnimation(){ clearInterval(dotInterval); dotCount=0; dotInterval=setInterval(()=>{ dotCount=(dotCount+1)%4; dotSpan.textContent='.'.repeat(dotCount); },500); }
 function stopDotAnimation(){ clearInterval(dotInterval); dotSpan.textContent=''; }
 
-// Paid button
+// Apply discount code: any non-empty value proceeds to limited offer
+document.getElementById("applyDiscountBtn").onclick = () => {
+  const codeInput = document.getElementById("discountCodeInput").value.trim();
+  if(codeInput === ""){
+    alert("Please enter a discount code to unlock access.");
+    return;
+  }
+  // For demo, any code works
+  closeDiscountModal();
+  showLimitedOfferModal();
+};
+
+// Get Lifetime Access button inside limited offer -> opens payment modal (now $250 USDT)
+document.getElementById("getLifetimeBtn").onclick = () => {
+  closeLimitedOfferModal();
+  showPaymentModal();
+};
+
+// Existing paid button logic (unchanged, but now price reflects $250)
 document.getElementById("paidBtn").onclick = () => {
   document.getElementById("paymentModal").classList.add("hidden");
   const proc = document.getElementById("processingModal");
@@ -213,7 +326,7 @@ document.getElementById("paidBtn").onclick = () => {
     stopDotAnimation();
     statusDiv.innerHTML=`
       <p class="text-red-400 font-bold text-lg mb-2">❌ Payment Not Detected</p>
-      <p class="text-white text-sm mb-2">Please resend via TRC20 or contact support:</p>
+      <p class="text-white text-sm mb-2">Please resend 250 USDT via TRC20 or contact support:</p>
     `;
     actionsDiv.classList.remove('hidden');
   },4000);
@@ -225,6 +338,16 @@ document.getElementById("retryBtn").onclick = () => {
   document.getElementById("paymentModal").classList.remove("hidden");
   startCountdown();
 };
+
+// Close modals when clicking on backdrop (optional)
+window.addEventListener('click', (e) => {
+  const discountModal = document.getElementById('discountModal');
+  const limitedModal = document.getElementById('limitedOfferModal');
+  const paymentModal = document.getElementById('paymentModal');
+  if (e.target === discountModal) closeDiscountModal();
+  if (e.target === limitedModal) closeLimitedOfferModal();
+  // payment modal doesn't close on backdrop to avoid accidental dismiss
+});
 </script>
 </body>
 </html>
